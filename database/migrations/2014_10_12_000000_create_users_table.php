@@ -15,10 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->boolean('role');
-            $table->boolean('is_admin');
+            $table->boolean('role')->default(0);
+            $table->boolean('is_admin')->default(0);
+            $table->date('dob');
+            $table->unsignedBigInteger('company_id')->nullable();
+            $table->string('avatar')->default('img/placeholder.png');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->softDeletes();
             $table->tinyInteger('points');
             $table->rememberToken();
             $table->timestamps();

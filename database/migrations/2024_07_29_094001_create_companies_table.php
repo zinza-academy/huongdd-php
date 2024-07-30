@@ -17,8 +17,9 @@ return new class extends Migration
             $table->string('address');
             $table->boolean('status');
             $table->string('logo');
+            $table->softDeletes();
             $table->tinyInteger('max_users');
-            $table->datetimes('expired_time');
+            $table->time('expired_time');
             $table->timestamps();
         });
     }

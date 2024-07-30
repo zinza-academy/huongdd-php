@@ -17,7 +17,8 @@ return new class extends Migration
             $table->text('description');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('topic_id');
-            $table->tinyInteger('status');
+            $table->boolean('status');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
