@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->tinyInteger('role');
+            $table->boolean('role');
+            $table->boolean('is_admin');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->tinyInteger('points');
             $table->rememberToken();
             $table->timestamps();
         });
