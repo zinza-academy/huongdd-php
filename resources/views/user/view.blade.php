@@ -59,7 +59,9 @@
                                 <x-input-label for="company" :value="__('Company')" />
                                     <select name="company" id="" class="mt-1 w-60">
                                         @isset($companies)
-                                            <option value="0" @if(!$user->company_id) selected @endif >Select company</option>
+                                            @if (!$user->company_id)
+                                                <option value="0" selected >Select company</option>
+                                            @endif
                                             @foreach ($companies as $company)
                                                 <option value="{{$company->id}}" @if ($company->id === $user->company_id) @endif >{{$company->name}}</option>
                                             @endforeach
@@ -75,7 +77,7 @@
                             <x-text-input id="dob" class="block mt-1 w-60" type="date" name="dob" :value="old('dob') ? old('dob') : $user->dob" />
                             <x-input-error :messages="$errors->get('dob')" class="mt-2" />
                         </div>
-                        <input type="submit" class="bg-blue-300 rounded py-1 px-4 mt-5" value="Submit">
+                        <input type="submit" class="bg-blue-300 rounded py-1 px-4 mt-5 cursor-pointer" value="Submit">
                     </form>
                 </div>
             </div>

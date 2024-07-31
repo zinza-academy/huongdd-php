@@ -53,17 +53,20 @@
                                     <td class="px-6 py-4">
                                         @if (!$user->is_admin)
                                             <x-dropdown>
-                                                <x-slot name="trigger" class="rounded bg-gray-700">
-                                                    action
+                                                <x-slot name="trigger" class="rounded bg-gray-700 cursor-pointer">
+                                                    Action
                                                 </x-slot>
                                                 <x-slot name="content">
                                                     <x-dropdown-link :href="route('user.view', $user->id)">
                                                         Update
                                                     </x-dropdown-link>
-                                                    <x-dropdown-link id="delete_btn">
-                                                        Delete
-                                                    </x-dropdown-link>
-
+                                                    <form action="{{route('user.delete', $user->id)}}" method="POST">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <input
+                                                        class="cursor-pointer block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                                                        type="submit" value="Delete" onclick="sure()">
+                                                    </form>
                                                 </x-slot>
                                             </x-dropdown>
                                         @endif
@@ -79,4 +82,10 @@
         </div>
     </div>
 </x-app-layout>
+<script>
+    function sure() {
+        confirm('Are use sure to delete this record?');
+    }
+</script>
+
 

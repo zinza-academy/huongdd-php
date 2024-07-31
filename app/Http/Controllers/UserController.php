@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\CompanyModel;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -17,7 +18,7 @@ class UserController extends Controller
     public function view( $id) {
         $user = User::find($id);
         if (!$user) {
-            return redirect()->back();
+            return redirect()->back()->with('fail', 'User not found');
         }
         $companies = CompanyModel::all();
         return view('user.view', compact('user', 'companies'));
@@ -25,10 +26,18 @@ class UserController extends Controller
 
     public function store(UserRequest $request, $id) {
         $validatedData = $request->validated();
-        dd($validatedData);
+        $user = User::find($id);
+        if (!empty($validatedData['old_password'])
+        && !empty($validatedData['password'])
+        && !empty($validatedData['password_confirm'])) {
+            // if ($validatedData['old_password'])
+            dd($user->password, Hash::make($validatedData['old_password']));
+        }
     }
 
     public function delete($id) {
-        return 'deleted';
+        $user = User::find($id);
+        $user->delete();
+        return redirect()->back()->with('succes', 'User deleted successfully!');
     }
 }
