@@ -36,7 +36,14 @@
                     <x-slot name="trigger">
                         <button class="inline-flex items-center border border-transparent transition ease-in-out duration-150">
                             <div class="ms-1">
-                                <img src="{{url(Auth::user()->avatar)}}" alt="avatar" class="w-10 h-10 rounded-full">
+                                @php
+                                    $currentUser = Auth::user();
+                                @endphp
+                                @if ($currentUser->avatar)
+                                    <img src="{{url('storage/' . Auth::user()->avatar)}}" alt="avatar" class="w-10 h-10 rounded-full">
+                                @else
+                                    <img src="{{url('img/placeholder.png')}}" alt="avatar" class="w-10 h-10 rounded-full">
+                                @endif
                             </div>
                         </button>
                     </x-slot>

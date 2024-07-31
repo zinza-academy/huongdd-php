@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\File;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
@@ -29,7 +30,7 @@ class UserRequest extends FormRequest
             'old_password' => 'bail|nullable',
             'password' => 'bail|nullable|min:10|max:255',
             'password_confirm' =>'bail|nullable|same:password',
-            'avatar' => ['nullable', File::types(['jpg', 'png'])->max('5mb')],
+            'avatar' => ['bail', 'nullable', File::image()->max('5mb')],
             'role' => 'nullable',
             'company' => 'nullable',
             'dob' => 'nullable',
@@ -37,10 +38,21 @@ class UserRequest extends FormRequest
     }
 
     // public function authenticate() {
-    //     if (!Auth::attempt($this->only('password'))) {
+    //     if (!Auth::attempt($this->only('old_password'))) {
     //         throw ValidationException::withMessages([
-    //             'password' => __('auth.failed'),
+    //             'old_password' => __('auth.failed'),
     //         ]);
     //     }
     // }
+
+    public function withValidator($validator) {
+        $validator->after(function ($validator) {
+            if (!empty($this->old_password) && !Hash::check($this->old_password, $this->user()->password)) {
+                $validator->errors()->add('old_password', 'Wrong password, try again!');
+            } else if (empty($this->old_password) && !empty($this->password)) {
+                $validator->errors()->add('old_password', 'Your current password is required!');
+            }
+        });
+        return;
+    }
 }

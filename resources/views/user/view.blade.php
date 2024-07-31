@@ -9,12 +9,18 @@
         <div class="mx-auto">
             <div class="bg-white overflow-hidden shadow-sm">
                 <div class="p-6 text-gray-900">
-                    <form action="{{route('user.store', $user->id)}}" method="POST">
+                    <form action="{{route('user.store', $user->id)}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('patch')
                         <div class="mt-5">
-                            <img src="{{url($user->avatar) }}" alt="avatar" class="h-20">
-                            <x-text-input id="avatar" class="block mt-1 w-60" type="file" name="avatar" :value="old('avatar')" />
+                            {{-- <img src="{{ asset($user->avatar) }}" alt="avatar" class="h-20"> --}}
+                            @if ($user->avatar)
+                                <img src="{{url('storage/' . $user->avatar)}}" alt="avatar" class="h-20">
+                            @else
+                                <img src="{{url('img/placeholder.png')}}" alt="avatar" class="h-20">
+                            @endif
+                            <x-text-input id="avatar" class="block mt-1 w-60" type="file" name="avatar"/>
+                            <x-input-error :messages="$errors->get('avatar')" class="mt-2" />
                         </div>
                         <div class="flex justify-start mt-5">
                             <div class="mr-5">
@@ -49,7 +55,7 @@
                         <div class="flex justify-start mt-5">
                             <div class="mr-5">
                                 <x-input-label for="role" :value="__('Role')" />
-                                    <select name="role" id="" class="mt-1 w-60">
+                                    <select name="role" class="mt-1 w-60">
                                         <option value="0" @if (!$user->role) selected @endif >Member</option>
                                         <option value="1" @if ($user->role) selected @endif >Company account</option>
                                     </select>
@@ -57,10 +63,10 @@
                             </div>
                             <div class="mr-5">
                                 <x-input-label for="company" :value="__('Company')" />
-                                    <select name="company" id="" class="mt-1 w-60">
+                                    <select name="company" class="mt-1 w-60">
                                         @isset($companies)
                                             @if (!$user->company_id)
-                                                <option value="0" selected >Select company</option>
+                                                <option selected >Select company</option>
                                             @endif
                                             @foreach ($companies as $company)
                                                 <option value="{{$company->id}}" @if ($company->id === $user->company_id) @endif >{{$company->name}}</option>

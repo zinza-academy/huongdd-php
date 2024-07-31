@@ -39,7 +39,11 @@
                                         {{$user->dob}}
                                     </td>
                                     <td class="px-6 py-4">
-                                        <span class="text-white bg-green-500 px-2 py-1">Actice</span>
+                                        @if ($user->deleted_at)
+                                            <span class="text-white bg-red-500 px-2 py-1">Deleted</span>
+                                        @else
+                                            <span class="text-white bg-green-500 px-2 py-1">Active</span>
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4">
                                         @if ($user->is_admin)
@@ -51,7 +55,7 @@
                                         @endif
                                     </td>
                                     <td class="px-6 py-4">
-                                        @if (!$user->is_admin)
+                                        @if (!$user->is_admin && !$user->deleted_at)
                                             <x-dropdown>
                                                 <x-slot name="trigger" class="rounded bg-gray-700 cursor-pointer">
                                                     Action
