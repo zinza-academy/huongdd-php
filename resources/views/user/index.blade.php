@@ -9,6 +9,9 @@
         <div class="mx-auto">
             <div class="">
                 <div class="p-6 text-gray-900">
+                    <div class="mb-5">
+                        <a href="{{route('user.create')}}" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"> Create user</a>
+                    </div>
                     <div class="relative">
                         <table class="mb-3 w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -61,7 +64,7 @@
                                                     Action
                                                 </x-slot>
                                                 <x-slot name="content">
-                                                    <x-dropdown-link :href="route('user.view', $user->id)">
+                                                    <x-dropdown-link :href="route('user.edit', $user->id)">
                                                         Update
                                                     </x-dropdown-link>
                                                     <form action="{{route('user.delete', $user->id)}}" method="POST">

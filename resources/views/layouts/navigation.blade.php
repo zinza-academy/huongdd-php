@@ -4,20 +4,27 @@
     <div class=" mx-auto px-1">
         <div class="flex justify-between h-16 px-6">
             <div class="flex justify-between" style="width:100%">
-
+                @php
+                    $user = Auth::user()
+                @endphp
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('user.index')" :active="request()->is('user/*', 'user')">
-                        {{ __('User') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('company.index')" :active="request()->is('company/*', 'company')">
-                        {{ __('Company') }}
-                    </x-nav-link>
+                    @if ($user->is_admin || $user->role)
+                        <x-nav-link :href="route('user.index')" :active="request()->is('user/*', 'user')">
+                            {{ __('User') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('company.index')" :active="request()->is('company/*', 'company')">
+                            {{ __('Company') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('topic.index')" :active="request()->is('topic/*', 'topic')">
+                            {{ __('Topic') }}
+                        </x-nav-link>
+                    @endif
                     <x-nav-link :href="route('post.index')" :active="request()->is('post/*', 'post')">
-                        {{ __('Post') }}
+                        {{ __('Posts') }}
                     </x-nav-link>
                 </div>
                 <div class="flex items-center">
@@ -42,7 +49,7 @@
                                 @if ($currentUser->avatar)
                                     <img src="{{url('storage/' . Auth::user()->avatar)}}" alt="avatar" class="w-10 h-10 rounded-full">
                                 @else
-                                    <img src="{{url('img/placeholder.png')}}" alt="avatar" class="w-10 h-10 rounded-full">
+                                    <img src="{{url('/storage/img/placeholder.png')}}" alt="avatar" class="w-10 h-10 rounded-full">
                                 @endif
                             </div>
                         </button>
@@ -66,7 +73,7 @@
                     </x-slot>
                 </x-dropdown>
                 <div class="pl-1">
-                    {{Auth::user()->points}}
+                    {{Auth::user()->points ?? 0}}
                 </div>
             </div>
 

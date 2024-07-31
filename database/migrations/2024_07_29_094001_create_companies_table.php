@@ -18,7 +18,7 @@ return new class extends Migration
             $table->boolean('status');
             $table->string('logo');
             $table->tinyInteger('max_users');
-            $table->time('expired_time');
+            $table->datetime('expired_time');
             $table->timestamps();
         });
     }

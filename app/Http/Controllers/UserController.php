@@ -2,61 +2,44 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\CompanyModel;
+use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserRequest;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Hash;
+use App\Services\UserService;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    private $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     public function index() {
-        $allUsers = User::withTrashed()->paginate(10);
-        return view('user.index', compact('allUsers'));
+        return $this->userService->index();
     }
 
-
-    public function view(FormRequest $request ,$id) {
-        $user = User::find($id);
-        if (!$user) {
-            return redirect()->back()->with('fail', 'User not found');
-        }
-        $companies = CompanyModel::all();
-        return view('user.view', compact('user', 'companies'));
+    public function create() {
+        return $this->userService->create();
     }
 
-    public function store(UserRequest $request, $id) {
-        $validatedData = $request->validated();
-        $user = User::find($id);
-        // dd($validatedData);
-        if (!empty($validatedData['avatar'])) {
-            $file = $validatedData['avatar'];
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $request->file('avatar')->storeAs('avatars', $filename, 'public');
-            $user->avatar = 'avatars/' . $filename;
-        }
-        $user->name = $validatedData['name'];
-        $user->role = $validatedData['role'];
-        $user->company_id = $validatedData['company'];
-        $user->dob = $validatedData['dob'];
-        if (!empty($validatedData['password'])) {
-            $user->password = Hash::make($validatedData['password']);
-        }
-        $user->save();
-        $toast = [
-            'type' => 'success',
-            'message' => 'User updated successfully!'
-        ];
-        return redirect()->back()->with($toast);
+    public function store(UserCreateRequest $request) {
+        $this->userService->store($request);
+        return redirect()->back();
+    }
+
+    public function edit($id) {
+        return $this->userService->edit($id);
+    }
+
+    public function update(UserRequest $request, $id) {
+        $this->userService->update($request, $id);
+        return redirect()->back();
     }
 
     public function delete($id) {
-        $user = User::find($id);
-        $user->delete();
-        $toast = [
-            'type' => 'success',
-            'message' => 'User deleted successfully!'
-        ];
-        return redirect()->back()->with($toast);
+        $this->userService->deleteUser($id);
+        return redirect()->back();
     }
 }

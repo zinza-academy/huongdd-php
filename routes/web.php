@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\TopicController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,19 +30,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
-    Route::get('/user', [UserController::class, 'index'])->name('user.index');
-    Route::get('/user/{id}', [UserController::class, 'view'])->name('user.view');
-    Route::patch('/user/{id}', [UserController::class, 'store'])->name('user.store');
-    Route::delete('/user/delete/{id}', [UserController::class, 'delete'])->name('user.delete');
+    Route::middleware('admin-ac')->prefix('user')->group(function () {
+        Route::get('/create', [UserController::class, 'create'])->name('user.create')->middleware('admin');
+        Route::post('/create', [UserController::class, 'store'])->name('user.store');
+        Route::get('/', [UserController::class, 'index'])->name('user.index');
+        Route::get('/{id}', [UserController::class, 'edit'])->name('user.edit');
+        Route::patch('/{id}', [UserController::class, 'update'])->name('user.update');
+        Route::delete('/delete/{id}', [UserController::class, 'delete'])->name('user.delete');
+    });
 
-    Route::get('/post', [PostController::class, 'index'])->name('post.index');
-    Route::get('/post/{id}', [PostController::class, 'view'])->name('post.view');
-    Route::patch('/post/{id}', [PostController::class, 'store'])->name('post.store');
-
-    Route::get('/company', [CompanyController::class, 'index'])->name('company.index');
-    Route::get('/company/{id}', [CompanyController::class, 'view'])->name('company.view');
-    Route::patch('/company/{id}', [CompanyController::class, 'store'])->name('company.store');
-
+    Route::resource('post', PostController::class);
+    Route::resource('company', CompanyController::class)->middleware('admin');
+    Route::resource('topic', TopicController::class)->middleware('admin');
 });
 
 require __DIR__.'/auth.php';

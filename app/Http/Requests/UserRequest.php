@@ -5,8 +5,6 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\File;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
 
 class UserRequest extends FormRequest
 {
@@ -26,24 +24,16 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'bail|nullable|min:10|max:255',
-            'old_password' => 'bail|nullable',
-            'password' => 'bail|nullable|min:10|max:255',
-            'password_confirm' =>'bail|nullable|same:password',
-            'avatar' => ['bail', 'nullable', File::image()->max('5mb')],
+            'name' => 'nullable|min:10|max:255',
+            'old_password' => 'nullable',
+            'password' => 'nullable|min:10|max:255',
+            'password_confirm' =>'nullable|same:password',
+            'avatar' => ['nullable', File::image()->max('5mb')],
             'role' => 'nullable',
             'company' => 'nullable',
             'dob' => 'nullable',
         ];
     }
-
-    // public function authenticate() {
-    //     if (!Auth::attempt($this->only('old_password'))) {
-    //         throw ValidationException::withMessages([
-    //             'old_password' => __('auth.failed'),
-    //         ]);
-    //     }
-    // }
 
     public function withValidator($validator) {
         $validator->after(function ($validator) {

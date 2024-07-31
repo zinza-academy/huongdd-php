@@ -14,6 +14,9 @@
 
         {{-- Toast --}}
         <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="stylesheet">
+
+        {{-- datepicker --}}
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
@@ -32,35 +35,21 @@
 
             <!-- Page Content -->
             <main>
+                <div class="mx-auto">
+                    @if (Session::has('error'))
+                        <x-session type="error">{{ Session::get('error', 'Action failed') }}</x-session>
+                    @endif
+                    @if (Session::has('success'))
+                        <x-session type="success">{{ Session::get('success', 'Action performed successfully') }}</x-session>
+                    @endif
+                </div>
                 {{ $slot }}
             </main>
         </div>
     </body>
 </html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-
-    @if (\Session::has('message'))
-        const type = "{{\Session::get('type', 'info')}}";
-        const timeOut = 5000;
-        switch (type) {
-            case 'info':
-                toastr.options.timeOut = timeOut;
-                toastr.info("{{\Session::get('message')}}");
-                break;
-            case 'warning':
-                toastr.options.timeOut = timeOut;
-                toastr.warning("{{\Session::get('message')}}");
-                break;
-            case 'success':
-                toastr.options.timeOut = timeOut;
-                toastr.success("{{ Session::get('message') }}");
-                break;
-            case 'error':
-                toastr.options.timeOut = timeOut;
-                toastr.error("{{\Session::get('message')}}");
-                break;
-        }
-    @endif
+    $("#datepicker").flatpickr({dateFormat: "Y-m-d"});
 </script>
