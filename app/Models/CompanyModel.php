@@ -10,4 +10,8 @@ class CompanyModel extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table = 'companies';
+
+    public function user() {
+        return $this->hasMany(User::class, 'company_id');
+    }
 }

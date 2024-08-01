@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Models\CompanyModel;
 
 class CompanyRepository {
-    public function getAll($paginate = 10, $trashed = false) {
+    public function getAll($paginate = 10, $trashed = true) {
         return $trashed ? CompanyModel::withTrashed()->paginate($paginate) : CompanyModel::paginate($paginate);
     }
 
