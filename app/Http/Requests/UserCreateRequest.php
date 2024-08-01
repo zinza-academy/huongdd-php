@@ -33,6 +33,7 @@ class UserCreateRequest extends FormRequest
             'company' => 'required',
             'dob' => 'required',
             'points' => 'nullable'
+
         ];
     }
 }

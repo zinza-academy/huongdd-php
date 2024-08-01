@@ -12,9 +12,11 @@ class ProfileService {
         }
 
         $request->user()->fill($request->validated());
+
         if(isset($avatar)) {
             $request->user()->avatar = $avatar;
         }
+
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }

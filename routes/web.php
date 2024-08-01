@@ -40,7 +40,9 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::resource('post', PostController::class);
+
     Route::resource('company', CompanyController::class)->middleware('admin');
+
     Route::resource('topic', TopicController::class)->middleware('admin');
 });
 

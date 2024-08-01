@@ -4,7 +4,6 @@
             {{ __('User / Create') }}
         </h2>
     </x-slot>
-
     <div class="">
         <div class="mx-auto">
             <div class="bg-white overflow-hidden shadow-sm">

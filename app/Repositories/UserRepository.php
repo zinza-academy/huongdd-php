@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\Models\User;
 
 class UserRepository {
-
     protected $user;
 
     public function __construct(User $user) {
@@ -13,14 +12,14 @@ class UserRepository {
     }
 
     public function getAll($paginate = 10, $trashed = false) {
-        return $trashed ? User::withTrashed()->paginate($paginate) : User::paginate($paginate);
+        return $trashed ? $this->user::withTrashed()->paginate($paginate) : $this->user::paginate($paginate);
     }
 
     public function getUserById($id) {
-        return User::findOrFail($id);
+        return $this->user::findOrFail($id);
     }
 
     public function create($data = []) {
-        return $data ? User::create($data) : false;
+        return $data ? $this->user::create($data) : false;
     }
 }
