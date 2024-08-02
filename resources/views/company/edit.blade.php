@@ -49,6 +49,13 @@
                                     </select>
                             </div>
                         </div>
+                        <div class="flex justify-start mt-5">
+                            <div class="mr-5">
+                                <x-input-label for="datepicker" :value="__('Expire time')" />
+                                <x-text-input id="datepicker" class="block mt-1 w-60" type="text" name="expire" :value="old('expire', $company->expired_time)"/>
+                                <x-input-error :messages="$errors->get('expire')" class="mt-2" />
+                            </div>
+                        </div>
                         <input type="submit" class="bg-blue-300 rounded py-1 px-4 mt-5 cursor-pointer" value="Submit">
                     </form>
                 </div>
@@ -56,3 +63,10 @@
         </div>
     </div>
 </x-app-layout>
+<script>
+    option = {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i"
+    };
+    $("#datepicker").flatpickr(option);
+</script>

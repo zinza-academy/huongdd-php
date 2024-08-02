@@ -26,7 +26,7 @@ class UserService {
     }
 
     public function create() {
-        $companies = $this->companyRepository->getAll(0, false);
+        $companies = $this->companyRepository->getAll(50, false);
         return view('user.create', compact('companies'));
     }
 
@@ -49,7 +49,7 @@ class UserService {
 
     public function edit($id) {
         $user = $this->userRepository->getUserById($id);
-        $companies = $this->companyRepository->getAll();
+        $companies = $this->companyRepository->getAll(50, false);
         return view('user.view', compact('user', 'companies'));
     }
 

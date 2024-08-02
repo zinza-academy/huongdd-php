@@ -13,6 +13,7 @@ class CompanyController extends Controller
     public function __construct(CompanyService $service) {
         $this->companyService = $service;
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -26,14 +27,16 @@ class CompanyController extends Controller
      */
     public function create()
     {
+        return view('company.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CompanyRequest $request)
     {
-        //
+        $this->companyService->create($request);
+        return redirect()->back();
     }
 
     /**

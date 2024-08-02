@@ -52,5 +52,6 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <script>
-    $("#datepicker").flatpickr({dateFormat: "Y-m-d"});
+    let option = {dateFormat: "Y-m-d"};
+    $("#datepicker").flatpickr(option);
 </script>

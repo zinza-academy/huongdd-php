@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\File;
+
 class CompanyRequest extends FormRequest
 {
     /**
@@ -24,7 +26,9 @@ class CompanyRequest extends FormRequest
             'name' => 'required|min:8|string',
             'address' => 'required|string',
             'max_users' => 'required|numeric|gt:0',
-            'status' => 'required'
+            'status' => 'required',
+            'expire' => 'required',
+            'logo' => ['nullable', File::image()->max('5mb')]
         ];
     }
 }
