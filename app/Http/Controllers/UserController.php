@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserCreateRequest;
+use App\Http\Requests\UserDelManyRequest;
 use App\Http\Requests\UserRequest;
 use App\Repositories\CompanyRepository;
 use App\Repositories\UserRepository;
 use App\Services\UserService;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
@@ -20,13 +23,14 @@ class UserController extends Controller
     }
 
     public function index() {
-        $allUsers = $this->userRepository->getAll();
+        $allUsers = $this->userService->index();
         return view('user.index', compact('allUsers'));
     }
 
     public function create() {
-        $companies = $this->companyRepository->getAll(false);
-        return view('user.create', compact('companies'));
+        $user = Auth::user();
+        $companies = $this->userService->getCompany();
+        return view('user.create', compact('companies', 'user'));
     }
 
     public function store(UserCreateRequest $request) {
@@ -37,8 +41,12 @@ class UserController extends Controller
 
     public function edit($id) {
         $user = $this->userRepository->getUserById($id);
-        $companies = $this->companyRepository->getAll(false);
-        return view('user.view', compact('user', 'companies'));
+        if (Gate::allows('update-user', $user)) {
+            $companies = $this->userService->getCompany();
+            return view('user.view', compact('user', 'companies'));
+        }
+        Session::flash('error', 'You have no permissions');
+        return redirect()->back();
     }
 
     public function update(UserRequest $request, $id) {
@@ -48,8 +56,19 @@ class UserController extends Controller
     }
 
     public function delete($id) {
-        $this->userService->deleteUser($id);
-        Session::flash('success', 'User deleted!');
+        $user = $this->userRepository->getUserById($id);
+        if (Gate::allows('delete-user', $user)) {
+            $this->userService->deleteUser($id);
+            Session::flash('success', 'User deleted!');
+            return redirect()->back();
+        }
+        Session::flash('error', 'You have no permissions');
+        return redirect()->back();
+    }
+
+    public function deleteMany(UserDelManyRequest $request) {
+        $this->userService->delete($request);
+        Session::flash('success', 'Users deleted!');
         return redirect()->back();
     }
 }

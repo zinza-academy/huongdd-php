@@ -31,10 +31,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     Route::middleware('admin-ac')->prefix('user')->group(function () {
-        Route::get('/create', [UserController::class, 'create'])->name('user.create')->middleware('admin');
+        Route::get('/create', [UserController::class, 'create'])->name('user.create');
         Route::post('/create', [UserController::class, 'store'])->name('user.store');
         Route::get('/', [UserController::class, 'index'])->name('user.index');
         Route::get('/{id}', [UserController::class, 'edit'])->name('user.edit');
+        Route::delete('/deletemany', [UserController::class, 'deleteMany'])->name('user.deletemany');
         Route::patch('/{id}', [UserController::class, 'update'])->name('user.update');
         Route::delete('/delete/{id}', [UserController::class, 'delete'])->name('user.delete');
     });
@@ -43,7 +44,10 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('company', CompanyController::class)->middleware('admin');
 
+    Route::delete('topic/deletemany', [TopicController::class, 'deleteMany'])->name('topic.deletemany')->middleware('admin');
+
     Route::resource('topic', TopicController::class)->middleware('admin');
+
 });
 
 require __DIR__.'/auth.php';

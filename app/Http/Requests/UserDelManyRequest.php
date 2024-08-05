@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\File;
 
-class CompanyRequest extends FormRequest
+class UserDelManyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,12 +22,8 @@ class CompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:8|string',
-            'address' => 'required|string',
-            'max_users' => 'required|numeric|gt:0',
-            'status' => 'required',
-            'expired_time' => 'required',
-            'logo' => ['nullable', File::image()->max('5mb')]
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:users,id'
         ];
     }
 }

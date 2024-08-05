@@ -16,6 +16,8 @@
                         <x-nav-link :href="route('user.index')" :active="request()->is('user/*', 'user')">
                             {{ __('User') }}
                         </x-nav-link>
+                    @endif
+                    @if ($user->is_admin)
                         <x-nav-link :href="route('company.index')" :active="request()->is('company/*', 'company')">
                             {{ __('Company') }}
                         </x-nav-link>

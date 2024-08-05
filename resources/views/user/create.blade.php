@@ -51,14 +51,21 @@
                             </div>
                             <div class="mr-5">
                                 <x-input-label for="company" :value="__('Company')" />
-                                    <select name="company" class="mt-1 w-60">
-                                        @isset($companies)
-                                            <option selected value="0" >Select company</option>
-                                            @foreach ($companies as $company)
-                                                <option value="{{$company->id}}">{{$company->name}}</option>
-                                            @endforeach
-                                        @endisset
-                                    </select>
+                                    @if ($user->is_admin)
+                                        <select name="company" class="mt-1 w-60" >
+                                            @isset($companies)
+                                                <option selected value="0" >Select company</option>
+                                                @foreach ($companies as $company)
+                                                    <option value="{{$company->id}}">
+                                                        {{$company->name}}
+                                                    </option>
+                                                @endforeach
+                                            @endisset
+                                        </select>
+                                    @else
+                                        <p class="mt-1 w-60">{{$companies->name}}</p>
+                                        <input type="hidden" id="company" name="company" class="block mt-1 w-60" value="{{ $companies->id }}" readonly>
+                                    @endif
                                 <x-input-error :messages="$errors->get('company')" class="mt-2" />
                             </div>
 

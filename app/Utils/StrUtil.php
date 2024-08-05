@@ -6,3 +6,4 @@ if(!function_exists('uploadFile')) {
         return $file->move(public_path('storage/' . $path), $img_name) ? $path . '/' .$img_name : false;
     }
 }
+

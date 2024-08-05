@@ -15,9 +15,9 @@
                         <div class="mt-5">
                             <x-input-label for="logo" :value="__('Logo')" />
                             @if ($company->logo)
-                                <img src="{{url('storage/' . $company->logo)}}" alt="logo" class="h-20">
+                                <img src="{{url('storage/' . $company->logo)}}" id="preview" alt="logo" class="h-40 object-cover">
                             @else
-                                <img src="{{url('storage/img/logoplaceholder.png')}}" alt="logo" class="h-20">
+                                <img src="{{url('storage/img/logoplaceholder.png')}}" id="preview" alt="logo" class="h-40 object-cover">
                             @endif
                             <x-text-input id="logo" class="block mt-1 w-60" type="file" name="logo"/>
                             <x-input-error :messages="$errors->get('logo')" class="mt-2" />
@@ -44,8 +44,8 @@
                             <div class="mr-5">
                                 <x-input-label for="status" :value="__('Chose status')" />
                                     <select name="status" class="mt-1 w-60">
-                                        <option value="0" @if (!$company->status) selected @endif >Deactive</option>
-                                        <option value="1" @if ($company->status) selected @endif >Active</option>
+                                        <option value="deactive" @if (!$company->status === 'deactive') selected @endif >Deactive</option>
+                                        <option value="active" @if ($company->status === 'active') selected @endif >Active</option>
                                     </select>
                             </div>
                         </div>
@@ -69,4 +69,7 @@
         dateFormat: "Y-m-d H:i:S"
     };
     $("#datepicker").flatpickr(option);
+    $('#logo').on('change', function(e) {
+        $('#preview').attr('src', URL.createObjectURL(e.target.files[0]))
+    })
 </script>
