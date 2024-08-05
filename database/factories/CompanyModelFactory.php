@@ -19,7 +19,7 @@ class CompanyModelFactory extends Factory
         return [
             'name' => fake()->company(),
             'address' => fake()->streetAddress(),
-            'status' => 1,
+            'status' => 'active',
             'max_users' => 100,
         ];
     }

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Config;
 
 class UserRepository {
     protected $user;
@@ -11,8 +12,12 @@ class UserRepository {
         $this->user = $user;
     }
 
-    public function getAll($paginate = 10, $trashed = false) {
-        return $trashed ? $this->user::withTrashed()->paginate($paginate) : $this->user::paginate($paginate);
+    public function getAll($paginate = true) {
+        $users = $this->user::all();
+        if ($paginate) {
+            $users = $this->user::paginate(Config::get('constant.PER_PAGE'));
+        }
+        return $users;
     }
 
     public function getUserById($id) {

@@ -3,23 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CompanyRequest;
+use App\Repositories\CompanyRepository;
 use App\Services\CompanyService;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class CompanyController extends Controller
 {
-    protected $companyService;
+    protected $companyService, $companyRepository;
 
-    public function __construct(CompanyService $service) {
+    public function __construct(CompanyService $service, CompanyRepository $repository) {
         $this->companyService = $service;
+        $this->companyRepository = $repository;
     }
 
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        return $this->companyService->index();
+    public function index() {
+        $companies = $this->companyRepository->getAll();
+        return view('company.index', compact('companies'));
     }
 
     /**
@@ -36,15 +38,8 @@ class CompanyController extends Controller
     public function store(CompanyRequest $request)
     {
         $this->companyService->create($request);
+        Session::flash('success', 'Company created');
         return redirect()->back();
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**
@@ -52,7 +47,8 @@ class CompanyController extends Controller
      */
     public function edit(string $id)
     {
-        return $this->companyService->edit($id);
+        $company = $this->companyRepository->getCompanyById($id);
+        return view('company.edit', compact('company'));
     }
 
     /**
@@ -61,6 +57,7 @@ class CompanyController extends Controller
     public function update(CompanyRequest $request, string $id)
     {
         $this->companyService->update($request, $id);
+        Session::flash('success', 'Company updated!');
         return redirect()->back();
     }
 
@@ -69,6 +66,8 @@ class CompanyController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $this->companyService->delete($id);
+        Session::flash('success', 'Company deleted!');
+        return redirect()->back();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Requests\CompanyRequest;
 use App\Repositories\CompanyRepository;
 use Illuminate\Support\Facades\Session;
 
@@ -13,43 +14,26 @@ class CompanyService {
         $this->companyRepository = $repository;
     }
 
-    public function index() {
-        $companies = $this->companyRepository->getAll(10);
-        return view('company.index', compact('companies'));
-    }
-
-    public function edit($id) {
+    public function update(CompanyRequest $request, $id) {
         $company = $this->companyRepository->getCompanyById($id);
-        return view('company.edit', compact('company'));
-    }
-
-    public function update($request, $id) {
-        $company = $this->companyRepository->getCompanyById($id);
+        $data = $request->validated();
         if (!empty($request->logo)) {
-            $company->logo = uploadFile($request->logo, 'logos');
+            $data['logo'] = uploadFile($request->logo, 'logos');
         }
-        $company->name = $request->name;
-        $company->status = $request->status;
-        $company->max_users = $request->max_users;
-        $company->address = $request->address;
-        $company->expired_time = $request->expire;
-        Session::flash('success', 'Company updated!');
-        return $company->save();
+        dd($data);
+        return $company->update($data);
     }
 
-    public function create($request) {
-        $data = [
-            'name' => $request->name,
-            'address' => $request->address,
-            'max_users' => $request->max_users,
-            'status' => $request->status,
-            'expired_time' => $request->expire,
-        ];
+    public function create(CompanyRequest $request) {
+        $data = $request->validated();
         if (isset($request->logo)) {
             $data['logo'] = uploadFile($request->logo, 'logos');
         }
-
-        Session::flash('success', 'Company created');
         return $this->companyRepository->create($data);
+    }
+
+    public function delete($id) {
+        $company = $this->companyRepository->getCompanyById($id);
+        return $company->delete();
     }
 }

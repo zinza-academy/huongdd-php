@@ -46,7 +46,7 @@
                                         {{$company->name}}
                                     </td>
                                     <td class="px-6 py-4">
-                                        @if ($company->status)
+                                        @if ($company->status === 'active')
                                             <span class="text-white bg-green-500 px-2 py-1">Active</span>
                                         @else
                                             <span class="text-white bg-red-500 px-2 py-1">Inactive</span>

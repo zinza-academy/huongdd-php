@@ -3,10 +3,21 @@
 namespace App\Repositories;
 
 use App\Models\CompanyModel;
+use Illuminate\Support\Facades\Config;
 
 class CompanyRepository {
-    public function getAll($paginate, $trashed = true) {
-        return $trashed ? CompanyModel::withTrashed()->paginate($paginate) : CompanyModel::paginate($paginate);
+    protected $companyModel;
+
+    public function __construct(CompanyModel $model) {
+        $this->companyModel = $model;
+    }
+
+    public function getAll($paginate = true) {
+        $companies = $this->companyModel::all();
+        if ($paginate) {
+            $companies = $this->companyModel::paginate(Config::get('constant.PER_PAGE'));
+        }
+        return $companies;
     }
 
     public function getCompanyById($id) {
