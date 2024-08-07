@@ -11,12 +11,20 @@
 
                 <div class="p-6 text-gray-900">
                     <div class="mb-5">
-                        <a href="{{route('user.create')}}" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"> Create user</a>
+                        <x-btn href="{{route('user.create')}}" color="blue">
+                            Create new user
+                        </x-btn>
+                        <x-btn href="#" color="red" id="delete_selected_users">
+                            Delete selected users
+                        </x-btn>
                     </div>
                     <div class="relative">
                         <table class="mb-3 w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
+                                    <th scope="col" class="px-6 py-3">
+                                        <input type="checkbox" name="ids" id="select_all_users">
+                                    </th>
                                     <th scope="col" class="px-6 py-3">
                                         Name
                                     </th>
@@ -35,7 +43,16 @@
                             </thead>
                             <tbody>
                                 @foreach ($allUsers as $user)
-                                <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                                <tr
+                                    class="checkbox-{{$user->id}} odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
+                                    >
+                                    <th class="px-6 py-4">
+                                        @can('delete-user', $user)
+                                            @if (!$user->is_admin)
+                                                <input type="checkbox" name="ids" class="checkbox_ids" value="{{$user->id}}">
+                                            @endif
+                                        @endcan
+                                    </th>
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{$user->name}}
                                     </th>
@@ -44,7 +61,7 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         @if ($user->deleted_at)
-                                            <span class="text-white bg-red-500 px-2 py-1">Deleted</span>
+                                                <span class="text-white bg-red-500 px-2 py-1">Deleted</span>
                                         @else
                                             <span class="text-white bg-green-500 px-2 py-1">Active</span>
                                         @endif
@@ -65,16 +82,20 @@
                                                     Action
                                                 </x-slot>
                                                 <x-slot name="content">
+                                                    @can('update-user', $user)
                                                     <x-dropdown-link :href="route('user.edit', $user->id)">
                                                         Update
                                                     </x-dropdown-link>
-                                                    <form action="{{route('user.delete', $user->id)}}" method="POST">
-                                                        @csrf
-                                                        @method('delete')
-                                                        <input
-                                                        class="cursor-pointer block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
-                                                        type="submit" value="Delete" onclick="sure()">
-                                                    </form>
+                                                    @endcan
+                                                    @can('delete-user', $user)
+                                                        <form action="{{route('user.delete', $user->id)}}" method="POST">
+                                                            @csrf
+                                                            @method('delete')
+                                                            <input
+                                                            class="cursor-pointer block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                                                            type="submit" value="Delete" onclick="sure()">
+                                                        </form>
+                                                    @endcan
                                                 </x-slot>
                                             </x-dropdown>
                                         @endif
@@ -94,6 +115,40 @@
     function sure() {
         confirm('Are use sure to delete this record?');
     }
+
+    $(function(e) {
+        $('#select_all_users').click(function() {
+            $('.checkbox_ids').prop('checked', $(this).prop('checked'));
+        });
+
+        $('#delete_selected_users').click(function (event) {
+            event.preventDefault();
+            let all_ids = [];
+            $('.checkbox_ids:checked').each(function () {
+                all_ids.push($(this).val());
+            });
+
+            $.ajax({
+                url : "{{route('user.deletemany')}}",
+                method : "DELETE",
+                data : {
+                    ids: all_ids,
+                    _token : "{{csrf_token()}}",
+                },
+                success: function(respone) {
+                    $.each(all_ids, function(key, value) {
+                        $('.checkbox-' + value).remove();
+                    });
+                    alert('Users deleted!');
+                },
+
+                error: function() {
+                    alert('Failed!');
+                }
+            });
+
+        })
+    })
 </script>
 
 

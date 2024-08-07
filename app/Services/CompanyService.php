@@ -20,7 +20,6 @@ class CompanyService {
         if (!empty($request->logo)) {
             $data['logo'] = uploadFile($request->logo, 'logos');
         }
-        dd($data);
         return $company->update($data);
     }
 

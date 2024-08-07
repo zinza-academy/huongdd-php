@@ -2,16 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TopicDelManyRequest;
+use App\Http\Requests\TopicRequest;
 use Illuminate\Http\Request;
+use App\Services\TopicService;
+use App\Repositories\TopicRepository;
+use Illuminate\Support\Facades\Session;
 
 class TopicController extends Controller
 {
+    protected $topicService, $topicRepository;
+
+    public function __construct(TopicService $service, TopicRepository $repository)
+    {
+        $this->topicService = $service;
+        $this->topicRepository = $repository;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return 'test';
+        $topics = $this->topicRepository->getAll();
+        return view('topic.index', compact('topics'));
     }
 
     /**
@@ -19,46 +33,51 @@ class TopicController extends Controller
      */
     public function create()
     {
-        //
+        return view('topic.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TopicRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        $this->topicService->create($request);
+        Session::flash('success', 'User created');
+        return redirect()->route('topic.index');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $topic = $this->topicRepository->getTopicById($id);
+        return view('topic.update', compact('topic'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(TopicRequest $request, $id)
     {
-        //
+        $this->topicService->update($request ,$id);
+        Session::flash('success', 'Topic updated');
+        return redirect()->route('topic.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $this->topicService->delete($id);
+        Session::flash('success', 'Topic deleted');
+        return redirect()->back();
+    }
+
+    public function deleteMany(TopicDelManyRequest $request) {
+        $this->topicService->deleteMany('id', $request->ids);
+        Session::flash('success', 'Topics deleted');
+        return redirect()->back();
     }
 }

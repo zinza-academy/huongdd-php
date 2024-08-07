@@ -27,4 +27,13 @@ class UserRepository {
     public function create($data = []) {
         return $data ? $this->user::create($data) : false;
     }
+
+    public function delete($field = 'id', $data) {
+        return $this->user::whereIn($field, $data)->delete();
+    }
+
+
+    public function search($field, $data) {
+        return $this->user::where($field, $data)->paginate(Config::get('constants.PER_PAGE'));
+    }
 }

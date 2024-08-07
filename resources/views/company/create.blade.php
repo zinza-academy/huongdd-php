@@ -12,6 +12,7 @@
                     <form action="{{route('company.store')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mt-5">
+                            <img src="{{url('storage/img/logoplaceholder.png')}}" id="preview" alt="preview" class="w-40 h-40 rounded-lg object-cover">
                             <x-input-label for="logo" :value="__('Logo')" />
                             <x-text-input id="logo" class="block mt-1 w-60" type="file" name="logo"/>
                             <x-input-error :messages="$errors->get('logo')" class="mt-2" />
@@ -38,8 +39,8 @@
                             <div class="mr-5">
                                 <x-input-label for="status" :value="__('Chose status')" />
                                 <select name="status" class="mt-1 w-60">
-                                    <option value="1"  >Active</option>
-                                    <option value="0"  >Deactive</option>
+                                    <option value="active"  >Active</option>
+                                    <option value="deactive"  >Deactive</option>
                                 </select>
                             </div>
                         </div>
@@ -63,5 +64,11 @@
         enableTime: true,
         dateFormat: "Y-m-d H:i"
     };
-    $("#datepicker").flatpickr(option);
+    $('#datepicker').flatpickr(option);
+
+    $('#logo').on('change', function(e) {
+        if (e.target.files.length) {
+            $('#preview').attr('src', URL.createObjectURL(e.target.files[0]));
+        }
+    })
 </script>
