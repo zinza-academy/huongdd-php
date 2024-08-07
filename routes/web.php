@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\TopicController;
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,6 +48,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('topic/deletemany', [TopicController::class, 'deleteMany'])->name('topic.deletemany')->middleware('admin');
 
     Route::resource('topic', TopicController::class)->middleware('admin');
+
+    Route::delete('tag/deletemany', [TagController::class, 'deleteMany'])->name('tag.deletemany')->middleware('admin');
+
+    Route::resource('tag', TagController::class)->middleware('admin');
 
 });
 

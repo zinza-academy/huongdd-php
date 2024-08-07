@@ -14,15 +14,18 @@
                     </x-nav-link>
                     @if ($user->is_admin || $user->role)
                         <x-nav-link :href="route('user.index')" :active="request()->is('user/*', 'user')">
-                            {{ __('User') }}
+                            {{ __('Users') }}
                         </x-nav-link>
                     @endif
                     @if ($user->is_admin)
                         <x-nav-link :href="route('company.index')" :active="request()->is('company/*', 'company')">
-                            {{ __('Company') }}
+                            {{ __('Companies') }}
                         </x-nav-link>
                         <x-nav-link :href="route('topic.index')" :active="request()->is('topic/*', 'topic')">
-                            {{ __('Topic') }}
+                            {{ __('Topics') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('tag.index')" :active="request()->is('tag/*', 'tag')">
+                            {{ __('Tags') }}
                         </x-nav-link>
                     @endif
                     <x-nav-link :href="route('post.index')" :active="request()->is('post/*', 'post')">
