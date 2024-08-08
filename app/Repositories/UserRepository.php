@@ -15,7 +15,7 @@ class UserRepository {
     public function getAll($paginate = true) {
         $users = $this->user::all();
         if ($paginate) {
-            $users = $this->user::paginate(Config::get('constant.PER_PAGE'));
+            $users = $this->user::paginate(Config::get('constants.PER_PAGE'));
         }
         return $users;
     }

@@ -82,7 +82,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{$companies->links()}}
+                        {{$companies->onEachSide(Config::get('constants.ON_EACH_SIDE'))->links(Config::get('constants.PAGINATE_VIEW'))}}
                     </div>
                 </div>
             </div>

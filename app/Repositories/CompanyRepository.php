@@ -15,7 +15,7 @@ class CompanyRepository {
     public function getAll($paginate = true) {
         $companies = $this->companyModel::all();
         if ($paginate) {
-            $companies = $this->companyModel::paginate(Config::get('constant.PER_PAGE'));
+            $companies = $this->companyModel::paginate(Config::get('constants.PER_PAGE'));
         }
         return $companies;
     }

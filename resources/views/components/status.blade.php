@@ -1,12 +1,8 @@
-@props(['status'])
+@props(['color'])
 @php
-    $colorMatch = [
-        'bg-green',
-        'bg-red',
-        'bg-gray'
-    ];
+    $classes = "text-white bg-$color-500 px-2 py-1";
 @endphp
 
-<span class="text-white {{$colorMatch[$status]}}">
+<span {{$attributes->merge(['class' => $classes])}}>
     {{$slot}}
 </span>

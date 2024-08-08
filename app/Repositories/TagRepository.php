@@ -16,7 +16,7 @@ class TagRepository {
     public function getAll($paginate = true) {
         $topics = $this->tagModel::all();
         if ($paginate) {
-            $topics = $this->tagModel::paginate(Config::get('constant.PER_PAGE'));
+            $topics = $this->tagModel::paginate(Config::get('constants.PER_PAGE'));
         }
         return $topics;
     }
@@ -31,6 +31,10 @@ class TagRepository {
 
     public function delete( $data) {
         return $this->tagModel::whereIn('id', $data)->delete();
+    }
+
+    public function search($field = 'id', $search = '') {
+        return $this->tagModel::where($field, 'LIKE', '%' . $search . '%')->get();
     }
 
 }

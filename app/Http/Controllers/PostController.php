@@ -2,16 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\PostRequest;
+use App\Repositories\PostRepository;
+use App\Repositories\TagRepository;
+use App\Repositories\TopicRepository;
+use App\Services\PostService;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class PostController extends Controller
 {
+    protected $postService, $postRepository, $topicRepository, $tagRepository;
+
+    public function __construct(PostService $service, PostRepository $postRepository, TopicRepository $topicRepository, TagRepository $tagRepository){
+        $this->postService = $service;
+        $this->postRepository = $postRepository;
+        $this->topicRepository = $topicRepository;
+        $this->tagRepository = $tagRepository;
+
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $posts = $this->postRepository->getAll();
+        $posts->load('user');
+        return view('post.index', compact('posts'));
     }
 
     /**
@@ -19,15 +37,20 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        $user = Auth::user();
+        $tags = $this->tagRepository->getAll(false);
+        $topics = $this->topicRepository->getAll(false);
+        return view('post.create', compact('tags', 'topics', 'user'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        //
+        $this->postService->create($request);
+        Session::flash('success', 'Post created');
+        return redirect()->back();
     }
 
     /**
@@ -49,7 +72,8 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PostRequest $request, string $id)
+
     {
         //
     }

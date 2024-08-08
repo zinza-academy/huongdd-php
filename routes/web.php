@@ -52,6 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('tag/deletemany', [TagController::class, 'deleteMany'])->name('tag.deletemany')->middleware('admin');
 
     Route::resource('tag', TagController::class)->middleware('admin');
+    Route::post('tag/gettag', [TagController::class, 'getTag'])->name('tag.gettag');
 
 });
 
