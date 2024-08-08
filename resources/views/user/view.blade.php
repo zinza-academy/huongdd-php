@@ -15,7 +15,7 @@
                             @if ($user->avatar)
                                 <img src="{{url('storage/' . $user->avatar)}}" alt="avatar" class="h-20">
                             @else
-                                <img src="{{url('img/placeholder.png')}}" alt="avatar" class="h-20">
+                                <img src="{{url('storage/img/placeholder.png')}}" alt="avatar" class="h-20">
                             @endif
                             <x-text-input id="avatar" class="block mt-1 w-60" type="file" name="avatar"/>
                             <x-input-error :messages="$errors->get('avatar')" class="mt-2" />
@@ -28,7 +28,11 @@
                             </div>
                             <div class="mr-5">
                                 <x-input-label for="email" :value="__('Email')" />
+                                @if (Auth::user()->is_admin)
+                                <x-text-input id="email" class="block mt-1 w-60" type="text" name="email" :value="$user->email" />
+                                @else
                                 <x-text-input id="email" class="block mt-1 w-60" type="text" name="email" :value="$user->email" disabled />
+                                @endif
                             </div>
                         </div>
 

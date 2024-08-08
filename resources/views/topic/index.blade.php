@@ -70,7 +70,7 @@
                                                     @method('delete')
                                                     <input
                                                     class="cursor-pointer block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
-                                                    type="submit" value="Delete" onclick="sure()">
+                                                    type="submit" value="Delete" onclick="return sure()">
                                                 </form>
                                             </x-slot>
                                         </x-dropdown>
@@ -87,39 +87,7 @@
     </div>
 </x-app-layout>
 <script>
-    function sure() {
-        confirm('Are use sure to delete this record?');
-    }
-
-    $(function(e) {
-        $('#select_all_topics').click(function() {
-            $('.checkbox_ids').prop('checked', $(this).prop('checked'));
-        });
-
-        $('#delete_selected_topics').click(function (event) {
-            event.preventDefault();
-            let all_ids = [];
-            $('.checkbox_ids:checked').each(function () {
-                all_ids.push($(this).val());
-            });
-            console.log(all_ids);
-
-            $.ajax({
-                url : "{{route('topic.deletemany')}}",
-                method : "DELETE",
-                data : {
-                    ids: all_ids,
-                    _token : "{{csrf_token()}}",
-                },
-                success: function(respone) {
-                    $.each(all_ids, function(key, value) {
-                        $('.checkbox-' + value).remove();
-                    });
-                },
-            });
-
-        })
-    })
+    deleteMany('topics', "{{route('topic.deletemany')}}")
 </script>
 
 
