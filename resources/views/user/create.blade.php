@@ -50,9 +50,9 @@
                                 <x-input-error :messages="$errors->get('role')" class="mt-2" />
                             </div>
                             <div class="mr-5">
-                                <x-input-label for="company" :value="__('Company')" />
+                                <x-input-label for="company_id" :value="__('Company')" />
                                     @if ($user->is_admin)
-                                        <select name="company" class="mt-1 w-60" >
+                                        <select name="company_id" class="mt-1 w-60" >
                                             @isset($companies)
                                                 <option selected value="0" >Select company</option>
                                                 @foreach ($companies as $company)
@@ -64,9 +64,9 @@
                                         </select>
                                     @else
                                         <p class="mt-1 w-60">{{$companies->name}}</p>
-                                        <input type="hidden" id="company" name="company" class="block mt-1 w-60" value="{{ $companies->id }}" readonly>
+                                        <input type="hidden" id="company_id" name="company_id" class="block mt-1 w-60" value="{{ $companies->id }}" readonly>
                                     @endif
-                                <x-input-error :messages="$errors->get('company')" class="mt-2" />
+                                <x-input-error :messages="$errors->get('company_id')" class="mt-2" />
                             </div>
 
                         </div>

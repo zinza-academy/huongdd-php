@@ -30,7 +30,7 @@ class UserRequest extends FormRequest
             'password_confirm' =>'nullable|same:password',
             'avatar' => ['nullable', File::image()->max('5mb')],
             'role' => 'nullable',
-            'company' => 'nullable',
+            'company_id' => 'nullable',
             'dob' => 'nullable',
         ];
     }
