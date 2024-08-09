@@ -30,7 +30,7 @@ class UserCreateRequest extends FormRequest
             'password_confirm' =>'nullable|same:password',
             'avatar' => ['nullable', File::image()->max('5mb')],
             'role' => 'required',
-            'company' => 'required',
+            'company_id' => 'required',
             'dob' => 'required',
             'points' => 'nullable'
 

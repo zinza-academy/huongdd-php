@@ -8,6 +8,8 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Illuminate\Support\Facades\Event;
 use App\Observers\TopicObserver;
 use App\Models\Topic;
+use App\Models\User;
+use App\Observers\UserObserver;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -28,6 +30,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Topic::observe(TopicObserver::class);
+        User::observe(UserObserver::class);
     }
 
     /**

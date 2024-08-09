@@ -15,7 +15,7 @@
                             @if ($user->avatar)
                                 <img src="{{url('storage/' . $user->avatar)}}" alt="avatar" class="h-20">
                             @else
-                                <img src="{{url('img/placeholder.png')}}" alt="avatar" class="h-20">
+                                <img src="{{url('storage/img/placeholder.png')}}" alt="avatar" class="h-20">
                             @endif
                             <x-text-input id="avatar" class="block mt-1 w-60" type="file" name="avatar"/>
                             <x-input-error :messages="$errors->get('avatar')" class="mt-2" />
@@ -28,7 +28,11 @@
                             </div>
                             <div class="mr-5">
                                 <x-input-label for="email" :value="__('Email')" />
+                                @if (Auth::user()->is_admin)
+                                <x-text-input id="email" class="block mt-1 w-60" type="text" name="email" :value="$user->email" />
+                                @else
                                 <x-text-input id="email" class="block mt-1 w-60" type="text" name="email" :value="$user->email" disabled />
+                                @endif
                             </div>
                         </div>
 
@@ -60,9 +64,9 @@
                                 <x-input-error :messages="$errors->get('role')" class="mt-2" />
                             </div>
                             <div class="mr-5">
-                                <x-input-label for="company" :value="__('Company')" />
+                                <x-input-label for="company_id" :value="__('Company')" />
                                 @if (Auth::user()->is_admin)
-                                    <select name="company" class="mt-1 w-60">
+                                    <select name="company_id" class="mt-1 w-60">
                                         @isset($companies)
                                             <option selected value="0"
                                                 @if (!$user->company_id)
@@ -76,9 +80,9 @@
                                     </select>
                                     @else
                                         <p class="mt-1 w-60">{{$companies->name}}</p>
-                                        <input type="hidden" id="company" name="company" class="block mt-1 w-60" value="{{ $companies->id }}" readonly>
+                                        <input type="hidden" id="company_id" name="company_id" class="block mt-1 w-60" value="{{ $companies->id }}" readonly>
                                     @endif
-                                <x-input-error :messages="$errors->get('company')" class="mt-2" />
+                                <x-input-error :messages="$errors->get('company_id')" class="mt-2" />
                             </div>
 
                         </div>
