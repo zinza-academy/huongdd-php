@@ -30,12 +30,8 @@ class TopicService {
         return $topic->update($data);
     }
 
-    public function deleteMany($field = '', $data = []) {
+    public function deleteMany($data) {
         $fieldMatch = Schema::getColumnListing('topics');
-        if (!in_array($field, $fieldMatch)) {
-            $field = 'id';
-            $data = [];
-        }
-        return $this->topicRepository->delete($field, $data);
+        return $this->topicRepository->delete($data);
     }
 }

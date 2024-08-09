@@ -25,12 +25,12 @@ class TagRepository {
         return $this->tagModel::findOrFail($id);
     }
 
-    public function create($data = []) {
+    public function create($data) {
         return $data ? $this->tagModel::create($data) : false;
     }
 
-    public function delete($field = 'id', $data) {
-        return $this->tagModel::whereIn($field, $data)->delete();
+    public function delete( $data) {
+        return $this->tagModel::whereIn('id', $data)->delete();
     }
 
 }

@@ -29,12 +29,8 @@ class TagService {
         return $tag->update($data);
     }
 
-    public function deleteMany($field = '', $data = []) {
+    public function deleteMany($data) {
         $fieldMatch = Schema::getColumnListing('topics');
-        if (!in_array($field, $fieldMatch)) {
-            $field = 'id';
-            $data = [];
-        }
-        return $this->tagRepository->delete($field, $data);
+        return $this->tagRepository->delete($data);
     }
 }

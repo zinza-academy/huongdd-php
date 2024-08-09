@@ -24,7 +24,7 @@ class CompanyRepository {
         return CompanyModel::findOrFail($id);
     }
 
-    public function create($data = []) {
-        return $data ? CompanyModel::create($data) : false;
+    public function create($data) {
+        return CompanyModel::create($data);
     }
 }

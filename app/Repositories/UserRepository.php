@@ -28,8 +28,8 @@ class UserRepository {
         return $data ? $this->user::create($data) : false;
     }
 
-    public function delete($field = 'id', $data) {
-        return $this->user::whereIn($field, $data)->delete();
+    public function delete($data) {
+        return $this->user::whereIn('id', $data)->delete();
     }
 
 
