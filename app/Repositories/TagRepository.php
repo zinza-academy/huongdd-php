@@ -33,7 +33,7 @@ class TagRepository {
         return $this->tagModel::whereIn('id', $data)->delete();
     }
 
-    public function search($field = 'id', $search = '') {
+    public function search($field, $search) {
         return $this->tagModel::where($field, 'LIKE', '%' . $search . '%')->get();
     }
 

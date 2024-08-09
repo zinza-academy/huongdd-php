@@ -8,8 +8,8 @@
     <div class="">
         <div class="mx-auto">
             <div class="bg-white overflow-hidden shadow-sm">
-                <div class="p-6 text-gray-900">
-                    <form class="max-w-dvw" action="{{route('post.store')}}" method="POST" enctype="multipart/form-data">
+                <div class="p-6 text-gray-900 w-1/2">
+                    <form class="" action="{{route('post.store')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mt-5">
                             <x-input-label for="title" :value="__('Title')" />
@@ -40,10 +40,14 @@
                         </div>
                         <div class="mt-5">
                             <x-input-label for="tags[]" :value="__('Tag')" />
-                            <select class="mt-1 tags_select w-96" name="tags[]" id="tags" multiple="multiple"></select>
+                            <select class="mt-1 tags_select w-96" name="tags[]" id="tags" multiple="multiple">
+                                @foreach ($tags as $tag)
+                                    <option value="{{$tag->id}}">{{$tag->name}}</option>
+                                @endforeach
+                            </select>
                             <x-input-error :messages="$errors->get('tags[]')" class="mt-2" />
                         </div>
-                        <input type="hidden" name="user_id" value="{{$user->id}}">
+                        <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                         <input type="submit" class="bg-blue-300 rounded py-1 px-4 mt-5 cursor-pointer" value="Submit">
                     </form>
                 </div>
@@ -51,40 +55,9 @@
         </div>
     </div>
     <script>
-        const idSelector = 'tags';
-        const targetUrl = "{{route('tag.gettag')}}";
         $(document).ready(function() {
-            $(`.${idSelector}`).select2({
-                placeholder: 'select',
-                allowClear: true,
-            });
-
-            $(`#${idSelector}`).select2( {
-                ajax: {
-                    url: targetUrl,
-                    type: "POST",
-                    delay: 200,
-                    dataType: "json",
-                    data: function(params) {
-                        return {
-                            name: params.term,
-                            _token: "{{csrf_token()}}",
-                        };
-                    },
-
-                    processResults: function(data) {
-                        return {
-                            results: $.map(data, function(item) {
-                                return {
-                                    id: item.id,
-                                    text: item.name
-                                }
-                            })
-                        };
-                    }
-                }
-            })
-        })
+            $('#tags').select2();
+        });
     </script>
 </x-app-layout>
 

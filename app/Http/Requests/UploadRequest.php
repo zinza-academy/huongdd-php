@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rules\File;
 
-class PostRequest extends FormRequest
+class UploadRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,14 +22,8 @@ class PostRequest extends FormRequest
      */
     public function rules(): array
     {
-        Log::info('Request data:', $this->all());
         return [
-            'title' => 'required|min:8|max:255|string',
-            'description' => 'required|',
-            'user_id' => 'required',
-            'topic_id' => 'required',
-            'status' => 'required',
-            'tags' => 'required|array',
+            'upload' => [File::image()->max('5mb')]
         ];
     }
 }

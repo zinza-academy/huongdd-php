@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::resource('post', PostController::class);
+    Route::post('img/upload', [PostController::class, 'upload'])->name('img.upload');
 
     Route::resource('company', CompanyController::class)->middleware('admin');
 

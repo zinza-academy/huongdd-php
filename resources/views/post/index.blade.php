@@ -44,7 +44,12 @@
                                         {{$post->title}}
                                     </th>
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{$post->user->name}}
+                                        @if ($post->user->id === Auth::user()->id)
+                                            <x-status color="green">{{$post->user->name}}</x-status>
+                                        @else
+                                            <x-status color="neutral">{{$post->user->name}}</x-status>
+                                        @endif
+
                                     </th>
                                     <td class="px-6 py-4">
                                         @if ($post->deleted_at)
@@ -78,13 +83,15 @@
                                                 <x-dropdown-link :href="route('post.edit', $post->id)">
                                                     Update
                                                 </x-dropdown-link>
-                                                <form action="{{route('post.destroy', $post->id)}}" method="POST">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <input
-                                                    class="cursor-pointer block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
-                                                    type="submit" value="Delete" onclick="return sure()">
-                                                </form>
+                                                @can('delete-post', $post)
+                                                    <form action="{{route('post.destroy', $post->id)}}" method="POST">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <input
+                                                        class="cursor-pointer block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                                                        type="submit" value="Delete" onclick="return sure()">
+                                                    </form>
+                                                @endcan
                                             </x-slot>
                                         </x-dropdown>
                                     </td>

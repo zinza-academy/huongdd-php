@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Post;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Event;
 use App\Observers\TopicObserver;
 use App\Models\Topic;
 use App\Models\User;
+use App\Observers\PostObserver;
 use App\Observers\UserObserver;
 
 class EventServiceProvider extends ServiceProvider
@@ -31,6 +33,7 @@ class EventServiceProvider extends ServiceProvider
     {
         Topic::observe(TopicObserver::class);
         User::observe(UserObserver::class);
+        Post::observe(PostObserver::class);
     }
 
     /**

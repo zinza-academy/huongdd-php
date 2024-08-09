@@ -18,7 +18,7 @@
         @method('patch')
         <div class="mt-5">
             @if ($user->avatar)
-                <img src="{{url('storage/' . $user->avatar)}}" alt="avatar" class="h-20">
+                <img src="{{$user->avatar}}" alt="avatar" class="h-20">
             @else
                 <img src="{{url('img/placeholder.png')}}" alt="avatar" class="h-20">
             @endif

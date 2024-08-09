@@ -52,9 +52,9 @@
                                     $currentUser = Auth::user();
                                 @endphp
                                 @if ($currentUser->avatar)
-                                    <img src="{{url('storage/' . Auth::user()->avatar)}}" alt="avatar" class="w-10 h-10 rounded-full">
+                                    <img src="{{url(Auth::user()->avatar)}}" alt="avatar" class="w-10 h-10 rounded-full">
                                 @else
-                                    <img src="{{url('/storage/img/placeholder.png')}}" alt="avatar" class="w-10 h-10 rounded-full">
+                                    <img src="{{url('img/placeholder.png')}}" alt="avatar" class="w-10 h-10 rounded-full">
                                 @endif
                             </div>
                         </button>

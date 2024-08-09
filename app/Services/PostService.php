@@ -14,26 +14,23 @@ class PostService {
     }
 
     public function delete($id) {
-        $tag = $this->postRepository->getTagById($id);
-        return $tag->delete();
+        $post = $this->postRepository->getPostById($id);
+        return $post->delete();
     }
 
     public function create(PostRequest $request) {
         $data = $request->validated();
         $post = $this->postRepository->create($data);
-        foreach($request->tags as $tag) {
-            PostTag::create([
-                'post_id' => $post->id,
-                'tag_id' => $tag
-            ]);
-        }
+        $post->tag()->sync($request->tags);
         return $post;
     }
 
     public function update(PostRequest $request ,$id) {
-        $tag = $this->postRepository->getTagById($id);
+        $post = $this->postRepository->getPostById($id);
+        $post->load('tag');
         $data = $request->validated();
-        return $tag->update($data);
+        $post->tag()->sync($request->tags);
+        return $post->update($data);
     }
 
 }

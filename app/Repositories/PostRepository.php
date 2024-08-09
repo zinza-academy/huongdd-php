@@ -20,7 +20,7 @@ class PostRepository {
         return $posts;
     }
 
-    public function getTagById($id) {
+    public function getPostById($id) {
         return $this->postModel::findOrFail($id);
     }
 

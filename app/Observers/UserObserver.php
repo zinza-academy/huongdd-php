@@ -7,6 +7,7 @@ use App\Mail\CreateUserMailable;
 use App\Mail\UpdateUserMailable;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 
 class UserObserver
 {
@@ -23,7 +24,9 @@ class UserObserver
      */
     public function updated(User $user): void
     {
-        dispatch(new SendMail($user->email, new UpdateUserMailable()));
+        if (Auth::user()->id !== $user->id) {
+            dispatch(new SendMail($user->email, new UpdateUserMailable()));
+        }
     }
 
     /**

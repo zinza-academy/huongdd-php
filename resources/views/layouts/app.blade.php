@@ -19,13 +19,17 @@
 
         {{-- select2 --}}
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+        <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.0.0/ckeditor5.css" />
+
+        <link rel="stylesheet" href="{{asset('css/style.css')}}">
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor5/43.0.0/ckeditor.min.js"></script>
         <script src="{{asset('js/jscolor.js')}}"></script>
         <script src="{{asset('js/functions.js')}}"></script>
         <script>
@@ -65,8 +69,11 @@
     </body>
 
     <script>
-        $("#datepicker").flatpickr({dateFormat: "Y-m-d"});
-        ClassicEditor.create(document.querySelector( '#editor' ));
+        ClassicEditor.create(document.querySelector( '#editor' ) , {
+            ckfinder: {
+                uploadUrl: "{{route('img.upload', ['_token' => csrf_token()])}}",
+            }
+        });
     </script>
 </html>
 
