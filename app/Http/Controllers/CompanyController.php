@@ -20,7 +20,7 @@ class CompanyController extends Controller
      * Display a listing of the resource.
      */
     public function index() {
-        $companies = $this->companyRepository->getAll();
+        $companies = $this->companyService->getCompanies();
         return view('company.index', compact('companies'));
     }
 

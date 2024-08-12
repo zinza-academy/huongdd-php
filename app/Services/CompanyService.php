@@ -14,6 +14,14 @@ class CompanyService {
         $this->companyRepository = $repository;
     }
 
+    public function getCompanies() {
+        $companies = $this->companyRepository->getAll();
+        $companies->each(function($company) {
+            $company->user = $company->user()->first();
+        });
+        return $companies;
+    }
+
     public function update(CompanyRequest $request, $id) {
         $company = $this->companyRepository->getCompanyById($id);
         $data = $request->validated();
