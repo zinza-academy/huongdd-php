@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight ">
-            {{ __('Topic management') }}
+            {{ __('Tag management') }}
         </h2>
     </x-slot>
 
@@ -11,11 +11,11 @@
 
                 <div class="p-6 text-gray-900">
                     <div class="mb-5">
-                        <x-btn href="{{route('topic.create')}}" color="blue">
-                            Create new topic
+                        <x-btn href="{{route('tag.create')}}" color="blue">
+                            Create new tag
                         </x-btn>
-                        <x-btn href="#" color="red" id="delete_selected_topics">
-                            Delete selected topics
+                        <x-btn href="#" color="red" id="delete_selected_tags">
+                            Delete selected tags
                         </x-btn>
                     </div>
                     <div class="relative">
@@ -23,7 +23,7 @@
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">
-                                        <input type="checkbox" name="ids" id="select_all_topics">
+                                        <input type="checkbox" name="ids" id="select_all_tags">
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Id
@@ -39,21 +39,23 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($topics as $topic)
+                                @foreach ($tags as $tag)
                                 <tr
-                                    class="checkbox-{{$topic->id}} odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
+                                    class="checkbox-{{$tag->id}} odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
                                 >
                                     <th class="px-6 py-4">
-                                        <input type="checkbox" name="ids" class="checkbox_ids" value="{{$topic->id}}">
+                                        <input type="checkbox" name="ids" class="checkbox_ids" value="{{$tag->id}}">
                                     </th>
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{$topic->id}}
+                                        {{$tag->id}}
                                     </th>
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{$topic->name}}
+                                        <span style="background-color: {{$tag->color}}" class="inline-block text-white px-3 py-1">
+                                            {{$tag->name}}
+                                        </span>
                                     </th>
                                     <td class="px-6 py-4">
-                                        {{$topic->created_at}}
+                                        {{$tag->created_at}}
                                     </td>
 
                                     <td class="px-6 py-4">
@@ -62,10 +64,10 @@
                                                 Action
                                             </x-slot>
                                             <x-slot name="content">
-                                                <x-dropdown-link :href="route('topic.edit', $topic->id)">
+                                                <x-dropdown-link :href="route('tag.edit', $tag->id)">
                                                     Update
                                                 </x-dropdown-link>
-                                                <form action="{{route('topic.destroy', $topic->id)}}" method="POST">
+                                                <form action="{{route('tag.destroy', $tag->id)}}" method="POST">
                                                     @csrf
                                                     @method('delete')
                                                     <input
@@ -79,15 +81,15 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{$topics->links()}}
+                        {{$tags->links()}}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        deleteMany('tags', "{{route('tag.deletemany')}}");
+    </script>
 </x-app-layout>
-<script>
-    deleteMany('topics', "{{route('topic.deletemany')}}")
-</script>
 
 

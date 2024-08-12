@@ -75,7 +75,7 @@ class UserService {
             $data = array_intersect($data, $userIdSameCompany);
         }
 
-        return $this->userRepository->delete('id', $data);
+        return $this->userRepository->delete($data);
     }
 
     public function getCompany() {

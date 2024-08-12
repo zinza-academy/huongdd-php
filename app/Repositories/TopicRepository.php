@@ -25,12 +25,12 @@ class TopicRepository {
         return $this->topicModel::findOrFail($id);
     }
 
-    public function create($data = []) {
+    public function create($data) {
         return $data ? $this->topicModel::create($data) : false;
     }
 
-    public function delete($field = 'id', $data) {
-        return $this->topicModel::whereIn($field, $data)->delete();
+    public function delete($data) {
+        return $this->topicModel::whereIn('id', $data)->delete();
     }
 
 }
