@@ -14,7 +14,7 @@ class TopicRepository {
     }
 
     public function getAll($paginate = true) {
-        $topics = $this->topicModel::all();
+        $topics = $this->topicModel::get();
         if ($paginate) {
             $topics = $this->topicModel::paginate(Config::get('constants.PER_PAGE'));
         }
@@ -33,4 +33,11 @@ class TopicRepository {
         return $this->topicModel::whereIn('id', $data)->delete();
     }
 
+    public function getWithPost () {
+        $topics = $this->topicModel->whereHas('post')->get();
+        $topics->each(function ($topic) {
+            $topic->post = $topic->post->take(Config::get('constants.LIMIT_POST'));
+        });
+        return $topics;
+    }
 }
