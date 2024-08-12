@@ -104,7 +104,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{$allUsers->links()}}
+                        {{$allUsers->onEachSide(Config::get('constants.ON_EACH_SIDE'))->links(Config::get('constants.PAGINATE_VIEW'))}}
                     </div>
                 </div>
             </div>

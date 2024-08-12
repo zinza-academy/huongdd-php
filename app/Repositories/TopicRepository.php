@@ -16,7 +16,7 @@ class TopicRepository {
     public function getAll($paginate = true) {
         $topics = $this->topicModel::all();
         if ($paginate) {
-            $topics = $this->topicModel::paginate(Config::get('constant.PER_PAGE'));
+            $topics = $this->topicModel::paginate(Config::get('constants.PER_PAGE'));
         }
         return $topics;
     }

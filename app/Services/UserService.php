@@ -5,6 +5,9 @@ namespace App\Services;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserDelManyRequest;
 use App\Http\Requests\UserRequest;
+use App\Jobs\SendMail;
+use App\Mail\CreateUserMailable;
+use App\Mail\UpdateUserMailable;
 use Illuminate\Support\Facades\Hash;
 use App\Repositories\UserRepository;
 use App\Repositories\CompanyRepository;
@@ -37,7 +40,9 @@ class UserService {
         }
         $data['password'] = Hash::make($request->password);
         $data['points'] = 0;
-        return $this->userRepository->create($data);
+        $user = $this->userRepository->create($data);
+        dispatch(new SendMail($user->email, new CreateUserMailable($user)));
+        return $user;
     }
 
     public function update(UserRequest $request, $id){
@@ -50,7 +55,9 @@ class UserService {
         if (!empty($request->password)) {
             $data['password'] = Hash::make($request->password);
         }
-        return $user->update($data);
+        $user->update($data);
+        dispatch(new SendMail($user->email, new UpdateUserMailable()));
+        return $user;
     }
 
     public function deleteUser($id) {

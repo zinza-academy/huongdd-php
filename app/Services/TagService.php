@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Requests\TagRequest;
 use App\Repositories\TagRepository;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 
 class TagService {
@@ -32,5 +33,13 @@ class TagService {
     public function deleteMany($data) {
         $fieldMatch = Schema::getColumnListing('topics');
         return $this->tagRepository->delete($data);
+    }
+
+    public function getTag(Request $request) {
+        $data = [];
+        if ($search = $request->name) {
+            $data = $this->tagRepository->search('name', $search);
+        }
+        return response()->json($data);
     }
 }

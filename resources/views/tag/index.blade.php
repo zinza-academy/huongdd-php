@@ -81,7 +81,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{$tags->links()}}
+                        {{$tags->onEachSide(Config::get('constants.ON_EACH_SIDE'))->links(Config::get('constants.PAGINATE_VIEW'))}}
                     </div>
                 </div>
             </div>

@@ -6,6 +6,7 @@ use App\Http\Requests\TagDelManyRequest;
 use App\Http\Requests\TagRequest;
 use App\Repositories\TagRepository;
 use App\Services\TagService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 class TagController extends Controller
@@ -74,5 +75,9 @@ class TagController extends Controller
         $this->tagService->deleteMany($request->ids);
         Session::flash('success', 'tags deleted');
         return redirect()->back();
+    }
+
+    public function getTag(Request $request) {
+        return $this->tagService->getTag($request);
     }
 }
