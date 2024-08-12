@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Http\Requests\PostRequest;
+use App\Jobs\SendMail;
+use App\Mail\DelPostMailable;
 use App\Repositories\PostRepository;
 use App\Models\PostTag;
 
@@ -15,6 +17,7 @@ class PostService {
 
     public function delete($id) {
         $post = $this->postRepository->getPostById($id);
+        dispatch(new SendMail($post->user->email, new DelPostMailable($post)));
         return $post->delete();
     }
 
