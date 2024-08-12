@@ -2,7 +2,9 @@
 /node_modules
 /public/build
 /public/hot
-/public/storage
+/public/img
+/public/logos
+/public/avatars
 /storage/*.key
 /vendor
 .env
