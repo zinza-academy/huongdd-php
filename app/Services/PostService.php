@@ -7,6 +7,7 @@ use App\Jobs\SendMail;
 use App\Mail\DelPostMailable;
 use App\Repositories\PostRepository;
 use App\Models\PostTag;
+use Illuminate\Http\Request;
 
 class PostService {
     protected $postRepository;
@@ -34,6 +35,16 @@ class PostService {
         $data = $request->validated();
         $post->tag()->sync($request->tags);
         return $post->update($data);
+    }
+
+    public function search(Request $request) {
+        $search = $request->input('search');
+        $posts = [];
+        if ($search) {
+            $posts = $this->postRepository->search($search);
+            $posts->appends(['search' => $search]);
+        }
+        return $posts;
     }
 
 }

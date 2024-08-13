@@ -36,4 +36,8 @@ class PostRepository {
         return $this->postModel::orderBy('created_at', 'desc')->take($limit)->get();
     }
 
+    public function search($data) {
+        return $this->postModel::where('title', 'LIKE', '%'.$data.'%')
+                                ->orWhere('description', 'LIKE', '%'.$data.'%')->paginate(Config::get('constants.PER_PAGE'));
+    }
 }

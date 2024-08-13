@@ -20,21 +20,20 @@ class DashboardService {
 
     public function getIndexData() {
         $topics = Cache::remember('topics', Config::get('constants.CACHE_LIFETIME'), function() {
-            return $this->topicRepository->getAll(false)->load(['post', 'latestPost', 'comment']);
-        });
-        $topicsWithPost = Cache::remember('topic_with_post', Config::get('constant.CACHE_LIFETIME'), function () {
-            return $this->topicRepository->getWithPost();
+            return $this->topicRepository->getAll(false)->load(['post', 'comment']);
         });
 
-        $user_likes = Cache::remember('user_likes', Config::get('constants.CACHE_LIFETIME'), function() {
-            return count_likes();
+        $topicsWithPost = Cache::remember('topic_with_post', Config::get('constant.CACHE_LIFETIME'), function () {
+            return $this->topicRepository->getAllWithPost();
         });
-        $posts = $this->postRepository->getNewestPost(Config::get('constants.LIMIT_RECORD'))->load('user');
+
+        $userLikes = Cache::remember('user_likes', Config::get('constants.CACHE_LIFETIME'), function() {
+            return userWithMostLikes();
+        });
         return [
             'topics' => $topics,
             'topicsWithPost' => $topicsWithPost,
-            'newestPosts' => $posts,
-            'user_likes' => $user_likes
+            'userLikes' => $userLikes
         ];
     }
 }

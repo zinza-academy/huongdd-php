@@ -111,4 +111,10 @@ class PostController extends Controller
             return response()->json(['uploaded' => 1, 'url' => $url]);
         }
     }
+
+    public function search(Request $request) {
+        $search = $request->input('search');
+        $posts = $this->postService->search($request);
+        return view('post.search', compact('posts', 'search'));
+    }
 }

@@ -33,8 +33,8 @@
                     </x-nav-link>
                 </div>
                 <div class="flex items-center">
-                    <form action="POST" class="" action="/">
-                        <x-text-input class="text-black" placeholder="Search...">
+                    <form method="GET" class="" action="{{route('post.search')}}">
+                        <x-text-input class="text-black" name="search" placeholder="Search...">
 
                         </x-text-input>
                     </form>

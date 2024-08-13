@@ -33,11 +33,21 @@ class TopicRepository {
         return $this->topicModel::whereIn('id', $data)->delete();
     }
 
-    public function getWithPost () {
+    public function getAllWithPost () {
         $topics = $this->topicModel::whereHas('post')->get();
         $topics->each(function ($topic) {
             $topic->post = $topic->post()->orderby('pinned', 'desc')->take(Config::get('constants.LIMIT_RECORD'))->get();
         });
         return $topics;
+    }
+
+    public function getWithPost($id) {
+        $topic = $this->topicModel::findOrFail($id);
+        $topic->post = $topic->post()->orderby('pinned', 'desc')->paginate(Config::get('constants.PER_PAGE'));
+        return $topic;
+    }
+
+    public function getNewestPost(Topic $topic ,$limit) {
+        return $topic->post()->orderBy('created_at', 'desc')->take($limit)->get();
     }
 }

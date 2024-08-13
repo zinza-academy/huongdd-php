@@ -40,12 +40,14 @@ Route::middleware('auth')->group(function () {
         Route::delete('/delete/{id}', [UserController::class, 'delete'])->name('user.delete');
     });
 
+    Route::get('post/search', [PostController::class, 'search'])->name('post.search');
     Route::resource('post', PostController::class);
     Route::post('img/upload', [PostController::class, 'upload'])->name('img.upload');
 
     Route::resource('company', CompanyController::class)->middleware('admin');
 
     Route::delete('topic/deletemany', [TopicController::class, 'deleteMany'])->name('topic.deletemany')->middleware('admin');
+    Route::get('topic/detail/{id}', [TopicController::class, 'topicDetail'])->name('topic.detail');
 
     Route::resource('topic', TopicController::class)->middleware('admin');
 

@@ -59,7 +59,7 @@
                                 {{ $topic->name }}
                             </x-slot>
                             <x-slot name="link">
-                                <x-btn color="sky">
+                                <x-btn color="sky" :href="route('topic.detail', $topic->id)">
                                     Readmore
                                 </x-btn>
                             </x-slot>
@@ -101,7 +101,7 @@
                                                 </x-status>
                                                 @endif
                                             </td>
-                                            <td class="px-6 py-4 truncate">
+                                            <td class="px-6 py-4">
                                                 {{ $post->pinned ? 'Pinned' : '..'}}
                                             </td>
                                             <td>
@@ -116,25 +116,10 @@
                     @endforeach
                 </div>
                 <x-sidebar>
-                    @foreach ($data['newestPosts'] as $post)
-                        <div class="border p-5 mx-5">
-                            <div class="font-medium text-lg">{{$post->title}}</div>
-                            <div class="truncate">{!! $post->description !!}</div>
-                            <div class="flex justify-between">
-                                @if ($post->user->avatar)
-                                <img src="{{url($post->user->avatar)}}" alt="avatar" class="w-10 h-10 rounded-full">
-                                @else
-                                <img src="{{url('img/placeholder.png')}}" alt="avatar" class="w-10 h-10 rounded-full">
-                                @endif
-                                <div>
-                                    {{$post->created_at}}
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+                    <x-newest-post/>
                     <div>
                         <div>Top users</div>
-                        @forelse ($data['user_likes'] as $user)
+                        @forelse ($data['userLikes'] as $user)
                             <div>
                                 <div><img src="{{url($user->avatar)}}" alt="avatar"></div>
                                 <div>
@@ -151,11 +136,5 @@
         </div>
     </div>
 
-    <x-footer-list>
-        @foreach ($data['topics'] as $topic)
-            <div class="w-1/6 p-1">
-                {{$topic->name}}
-            </div>
-        @endforeach
-    </x-footer-list>
+    <x-footer-list/>
 </x-app-layout>

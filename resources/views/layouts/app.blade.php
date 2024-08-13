@@ -68,7 +68,7 @@
         </div>
     </body>
     <footer class="flex bg-gray-200 justify-center items-center h-16">
-        2024
+        Copyright &copy; {{date('Y')}}
     </footer>
 
 

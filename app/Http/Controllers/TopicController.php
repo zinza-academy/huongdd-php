@@ -7,6 +7,7 @@ use App\Http\Requests\TopicRequest;
 use Illuminate\Http\Request;
 use App\Services\TopicService;
 use App\Repositories\TopicRepository;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
 
 class TopicController extends Controller
@@ -79,5 +80,10 @@ class TopicController extends Controller
         $this->topicService->deleteMany($request->ids);
         Session::flash('success', 'Topics deleted');
         return redirect()->back();
+    }
+
+    public function topicDetail($id) {
+        $topic = $this->topicRepository->getWithPost($id);
+        return view('topic.topic-detail', compact('topic'));
     }
 }
