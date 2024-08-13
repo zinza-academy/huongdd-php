@@ -10,14 +10,4 @@ if(!function_exists('uploadFile')) {
     }
 }
 
-if(!function_exists('count_likes')) {
-    function count_likes() {
-        $res = DB::table('users')->selectRaw('users.*, count(comment_user_likes.user_id) as likes_counted')
-        ->join('comments', 'users.id', '=', 'comments.user_id')
-        ->join('comment_user_likes', 'comments.id', '=', 'comment_user_likes.comment_id')
-        ->groupBy('users.id')
-        ->orderBy('likes_counted', 'desc')->take(Config::get('constants.LIMIT_RECORD'))->get();
-        return $res;
-    }
-}
 

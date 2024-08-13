@@ -134,7 +134,7 @@
                     @endforeach
                     <div>
                         <div>Top users</div>
-                        @forelse ($data['user_likes'] as $user)
+                        @forelse ($data['userLikes'] as $user)
                             <div>
                                 <div><img src="{{url($user->avatar)}}" alt="avatar"></div>
                                 <div>
