@@ -1,5 +1,5 @@
 .ck-editor__editable_inline {
-    height: 200px;
+    min-height: 200px;
 }
 
 .truncate {
@@ -9,4 +9,24 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.tooltip {
+    position: relative;
+}
+
+.tooltip p {
+    visibility: hidden;
+    text-align: center;
+    border-radius: 5px;
+    background-color: gray;
+    padding: 5px 10px;
+    position: absolute;
+    width: auto;
+    right: 0;
+    z-index: 99;
+}
+
+.tooltip:hover p {
+    visibility: visible;
 }

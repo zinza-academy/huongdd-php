@@ -6,5 +6,6 @@ return [
     'POST_STATUS_NOTRESOLVED' => 'not_resolved',
     'ON_EACH_SIDE' => 1,
     'PAGINATE_VIEW' => 'vendor.pagination.tailwind',
-    'LIMIT_POST' => 5
+    'LIMIT_RECORD' => 5,
+    'CACHE_LIFETIME' => 1
 ];

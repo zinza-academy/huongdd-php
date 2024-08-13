@@ -4,6 +4,7 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
+
     <div class="">
         <div class="mx-auto">
             <div class="bg-white overflow-hidden shadow-sm relative flex">
@@ -75,6 +76,8 @@
                                             Status
                                         </th>
                                         <th scope="col" class="px-6 py-3">
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
                                             Created At
                                         </th>
                                     </x-slot>
@@ -88,6 +91,21 @@
                                                 {!! $post->description !!}
                                             </td>
                                             <td class="px-6 py-4">
+                                                @if ($post->status === Config::get('constants.POST_STATUS_RESOLVE'))
+                                                <x-status color='green'>
+                                                    Resolved
+                                                </x-status>
+                                                @else
+                                                <x-status color='gray'>
+                                                    Not Resolved
+                                                </x-status>
+                                                @endif
+                                            </td>
+                                            <td class="px-6 py-4 truncate">
+                                                {{ $post->pinned ? 'Pinned' : '..'}}
+                                            </td>
+                                            <td>
+                                                {{$post->created_at}}
                                             </td>
                                         </tr>
                                         @endforeach
@@ -114,8 +132,30 @@
                             </div>
                         </div>
                     @endforeach
+                    <div>
+                        <div>Top users</div>
+                        @forelse ($data['user_likes'] as $user)
+                            <div>
+                                <div><img src="{{url($user->avatar)}}" alt="avatar"></div>
+                                <div>
+                                    <p>{{ $user->name}}</p>
+                                    <p>{{ $user->likes_counted }}</p>
+                                </div>
+                            </div>
+                        @empty
+                            <div>No data</div>
+                        @endforelse
+                    </div>
                 </x-sidebar>
             </div>
         </div>
     </div>
+
+    <x-footer-list>
+        @foreach ($data['topics'] as $topic)
+            <div class="w-1/6 p-1">
+                {{$topic->name}}
+            </div>
+        @endforeach
+    </x-footer-list>
 </x-app-layout>

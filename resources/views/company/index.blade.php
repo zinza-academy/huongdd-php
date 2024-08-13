@@ -4,7 +4,7 @@
             {{ __('Company management') }}
         </h2>
     </x-slot>
-    {{-- @dd($companies) --}}
+
     <div class="">
         <div class="mx-auto">
             <div class="">
