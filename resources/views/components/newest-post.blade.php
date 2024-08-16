@@ -1,6 +1,8 @@
 @foreach ($newestPosts as $post)
     <div class="border p-5 mx-5">
-        <div class="font-medium text-lg">{{$post->title}}</div>
+        <div class="font-medium text-lg">
+            <a href="{{route('post.detail', $post->id)}}">{{$post->title}}</a>
+        </div>
         <div class="truncate">{!! $post->description !!}</div>
         <div class="flex justify-between">
             @if ($post->user->avatar)

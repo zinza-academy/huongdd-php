@@ -58,6 +58,11 @@
         $(document).ready(function() {
             $('#tags').select2();
         });
+        ClassicEditor.create(document.querySelector( '#editor' ) , {
+            ckfinder: {
+                uploadUrl: "{{route('img.upload', ['_token' => csrf_token()])}}",
+            }
+        });
     </script>
 </x-app-layout>
 

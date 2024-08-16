@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\CompanyModel::factory()->count(10)->hasUser(5)->create();
         // \App\Models\Tag::factory(15)->create();
         // \App\Models\Post::factory()->count(2)->forUser()->forTopic()->hasTag(5)->create();
+        \App\Models\Comment::factory(1)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

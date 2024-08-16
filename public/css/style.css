@@ -16,15 +16,32 @@
 }
 
 .tooltip p {
+    display: block;
     visibility: hidden;
     text-align: center;
-    border-radius: 5px;
-    background-color: gray;
+    background-color: black;
     padding: 5px 10px;
     position: absolute;
-    width: auto;
+    color: white;
     right: 0;
     z-index: 99;
+    white-space: nowrap;
+    box-sizing: border-box;
+    top: 100%;
+    margin-top: 5px;
+}
+
+.tooltip p::before {
+    content: "";
+    background-color: black;
+    width: 10px;
+    height: 10px;
+    display: block;
+    position: absolute;
+    top: -5px;
+    left: 90%;
+    transform: rotate(45deg);
+    /* transform: translateY(-5px); */
 }
 
 .tooltip:hover p {

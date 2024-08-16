@@ -7,6 +7,8 @@ use App\Jobs\SendMail;
 use App\Mail\DelPostMailable;
 use App\Repositories\PostRepository;
 use App\Models\PostTag;
+use App\ViewComposers\CommentComposer;
+use App\ViewComposers\PostDetailComposer;
 use Illuminate\Http\Request;
 
 class PostService {
@@ -31,7 +33,6 @@ class PostService {
 
     public function update(PostRequest $request ,$id) {
         $post = $this->postRepository->getPostById($id);
-        $post->load('tag');
         $data = $request->validated();
         $post->tag()->sync($request->tags);
         return $post->update($data);
@@ -47,4 +48,10 @@ class PostService {
         return $posts;
     }
 
+    public function postDetail($id) {
+        $cmtComposer = new CommentComposer($id);
+        $postComposer = new PostDetailComposer($id);
+        $cmtComposer->compose();
+        $postComposer->compose();
+    }
 }

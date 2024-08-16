@@ -28,8 +28,8 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor5/43.0.0/ckeditor.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <script src="{{asset('js/jscolor.js')}}"></script>
         <script src="{{asset('js/functions.js')}}"></script>
         <script>
@@ -70,15 +70,6 @@
     <footer class="flex bg-gray-200 justify-center items-center h-16">
         Copyright &copy; {{date('Y')}}
     </footer>
-
-
-    <script>
-        ClassicEditor.create(document.querySelector( '#editor' ) , {
-            ckfinder: {
-                uploadUrl: "{{route('img.upload', ['_token' => csrf_token()])}}",
-            }
-        });
-    </script>
 </html>
 
 

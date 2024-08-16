@@ -51,4 +51,8 @@ class User extends Authenticatable
     public function company() {
         return $this->belongsTo(CompanyModel::class, 'company_id');
     }
+
+    public function like() {
+        return $this->hasMany(CommentUserLike::class, 'user_id');
+    }
 }

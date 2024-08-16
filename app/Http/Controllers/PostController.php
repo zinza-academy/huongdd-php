@@ -7,22 +7,27 @@ use App\Http\Requests\UploadRequest;
 use App\Repositories\PostRepository;
 use App\Repositories\TagRepository;
 use App\Repositories\TopicRepository;
+use App\Services\CommentService;
 use App\Services\PostService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class PostController extends Controller
 {
-    protected $postService, $postRepository, $topicRepository, $tagRepository;
+    protected $postService, $postRepository, $topicRepository, $tagRepository, $cmtService;
 
-    public function __construct(PostService $service, PostRepository $postRepository, TopicRepository $topicRepository, TagRepository $tagRepository){
+    public function __construct(PostService $service,
+                                PostRepository $postRepository,
+                                TopicRepository $topicRepository,
+                                TagRepository $tagRepository,
+                                CommentService $cmtService){
         $this->postService = $service;
         $this->postRepository = $postRepository;
         $this->topicRepository = $topicRepository;
         $this->tagRepository = $tagRepository;
+        $this->cmtService = $cmtService;
     }
 
     /**
@@ -117,4 +122,11 @@ class PostController extends Controller
         $posts = $this->postService->search($request);
         return view('post.search', compact('posts', 'search'));
     }
+
+    public function detail($id) {
+        $post = $this->postRepository->getPostById($id);
+        $this->postService->postDetail($id);
+        return view('post.post-detail', compact('post'))->render();
+    }
+
 }

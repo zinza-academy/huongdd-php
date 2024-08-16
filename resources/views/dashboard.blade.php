@@ -43,7 +43,11 @@
                                             </td>
                                             <td class="px-6 py-4">
                                                 @if (!$topic->post->isEmpty())
-                                                    <div class="font-semibold">{{ $topic->latestPost->title }}</div>
+                                                    <div class="font-semibold">
+                                                        <a href="{{route('post.detail', $topic->latestPost->id)}}">
+                                                            {{ $topic->latestPost->title }}
+                                                        </a>
+                                                    </div>
                                                     <div>{{ $topic->latestPost->created_at }}</div>
                                                 @endif
                                             </td>
@@ -85,7 +89,7 @@
                                         @foreach ($topic->post as $post)
                                         <tr class="bg-white border-b">
                                             <th scope="row" class="px-6 py-4 font-medium text-gray-900">
-                                                {{ $post->title }}
+                                                <a href="{{route('post.detail', $post->id)}}">{{$post->title}}</a>
                                             </th>
                                             <td class="px-6 py-4 truncate">
                                                 {!! $post->description !!}
@@ -121,7 +125,7 @@
                         <div>Top users</div>
                         @forelse ($data['userLikes'] as $user)
                             <div>
-                                <div><img src="{{url($user->avatar)}}" alt="avatar"></div>
+                                {{-- <div><img src="{{url($user->avatar)}}" alt="avatar"></div> --}}
                                 <div>
                                     <p>{{ $user->name}}</p>
                                     <p>{{ $user->likes_counted }}</p>

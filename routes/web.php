@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +42,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/delete/{id}', [UserController::class, 'delete'])->name('user.delete');
     });
 
+    Route::get('post/detail/{id}', [PostController::class, 'detail'])->name('post.detail');
     Route::get('post/search', [PostController::class, 'search'])->name('post.search');
     Route::resource('post', PostController::class);
     Route::post('img/upload', [PostController::class, 'upload'])->name('img.upload');
@@ -55,6 +58,11 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('tag', TagController::class)->middleware('admin');
 
+    Route::post('comment/resolve/{cmt_id}/{post_id}/{user_id}', [CommentController::class, 'markResolve'])->name('comment.resolve');
+    Route::resource('comment', CommentController::class);
+
+    Route::post('like/store', [LikeController::class, 'store'])->name('like');
+    Route::delete('like/delete', [LikeController::class, 'delete'])->name('dislike');
 });
 
 require __DIR__.'/auth.php';
