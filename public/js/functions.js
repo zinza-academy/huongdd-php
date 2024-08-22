@@ -27,6 +27,8 @@ function deleteMany(target, targetUrl) {
                     $.each(all_ids, function(key, value) {
                         $('.checkbox-' + value).remove();
                     });
+                    toastr.options.timeOut = 5000;
+                    toastr.success(`Deleted ${target} successfully`);
                 },
             });
             }

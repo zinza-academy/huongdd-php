@@ -19,17 +19,20 @@ class DashboardService {
     }
 
     public function getIndexData() {
-        $topics = Cache::remember('topics', Config::get('constants.CACHE_LIFETIME'), function() {
-            return $this->topicRepository->getAll(false)->load(['post', 'comment']);
-        });
+        // $topics = Cache::remember('topics', Config::get('constants.CACHE_LIFETIME'), function() {
+        //     return $this->topicRepository->getAll(false)->load(['post', 'comment']);
+        // });
 
-        $topicsWithPost = Cache::remember('topic_with_post', Config::get('constant.CACHE_LIFETIME'), function () {
-            return $this->topicRepository->getAllWithPost();
-        });
+        // $topicsWithPost = Cache::remember('topic_with_post', Config::get('constant.CACHE_LIFETIME'), function () {
+        //     return $this->topicRepository->getAllWithPost();
+        // });
 
-        $userLikes = Cache::remember('user_likes', Config::get('constants.CACHE_LIFETIME'), function() {
-            return userWithMostLikes();
-        });
+        // $userLikes = Cache::remember('user_likes', Config::get('constants.CACHE_LIFETIME'), function() {
+        //     return userWithMostLikes();
+        // });
+        $topics =  $this->topicRepository->getAll(false)->load(['post', 'comment']);
+        $topicsWithPost = $this->topicRepository->getAllWithPost();
+        $userLikes = userWithMostLikes();
         return [
             'topics' => $topics,
             'topicsWithPost' => $topicsWithPost,

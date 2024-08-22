@@ -78,8 +78,7 @@ class TopicController extends Controller
 
     public function deleteMany(TopicDelManyRequest $request) {
         $this->topicService->deleteMany($request->ids);
-        Session::flash('success', 'Topics deleted');
-        return redirect()->back();
+        return response()->json(['success' => 'deleted']);
     }
 
     public function topicDetail($id) {

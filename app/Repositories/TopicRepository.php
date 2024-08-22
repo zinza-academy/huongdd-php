@@ -30,7 +30,12 @@ class TopicRepository {
     }
 
     public function delete($data) {
-        return $this->topicModel::whereIn('id', $data)->delete();
+        $topics = $this->topicModel::whereIn('id', $data)->get();
+        foreach($topics as $topic) {
+            $topic->post()->delete();
+            $topic->delete();
+        }
+        return true;
     }
 
     public function getAllWithPost () {

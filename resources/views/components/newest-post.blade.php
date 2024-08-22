@@ -5,7 +5,7 @@
         </div>
         <div class="truncate">{!! $post->description !!}</div>
         <div class="flex justify-between">
-            @if ($post->user->avatar)
+            @if (isset($post->user->avatar))
             <img src="{{url($post->user->avatar)}}" alt="avatar" class="w-10 h-10 rounded-full">
             @else
             <img src="{{url('img/placeholder.png')}}" alt="avatar" class="w-10 h-10 rounded-full">

@@ -54,7 +54,6 @@
                                     @if ($user->is_admin)
                                         <select name="company_id" class="mt-1 w-60" >
                                             @isset($companies)
-                                                <option selected value="0" >Select company</option>
                                                 @foreach ($companies as $company)
                                                     <option value="{{$company->id}}">
                                                         {{$company->name}}
@@ -83,3 +82,7 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    $('#datepicker').flatpickr();
+</script>

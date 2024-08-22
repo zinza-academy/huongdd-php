@@ -4,7 +4,6 @@
             {{ __('Topic detail') }}
         </h2>
     </x-slot>
-
     <div class="">
         <div class="mx-auto">
             <div class="">
@@ -35,7 +34,7 @@
                                         @foreach ($topic->post as $post)
                                         <tr class="bg-white border-b">
                                             <th scope="row" class="px-6 py-4 font-medium text-gray-900">
-                                                {{ $post->title }}
+                                                <a href="{{route('post.detail', $post->id)}}">{{$post->title}}</a>
                                             </th>
                                             <td class="px-6 py-4 truncate">
                                                 {!! $post->description !!}

@@ -2,8 +2,8 @@
 # Account created
 
 An admin's just created an account for you, click button below to login <br>
-Email : {{$user->email}} <br>
-Password: {{Config::get('constants.DEFAULT_PASSWORD')}} <br>
+Email : {{$username}} <br>
+Password: {{$password}} <br>
 
 After logging in, you should change you pasword!
 @component('mail::button', ['url' => route('profile.edit')])

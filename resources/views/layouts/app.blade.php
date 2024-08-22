@@ -29,6 +29,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor5/43.0.0/ckeditor.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <script src="{{asset('js/jscolor.js')}}"></script>
         <script src="{{asset('js/functions.js')}}"></script>
@@ -55,14 +56,6 @@
 
             <!-- Page Content -->
             <main>
-                <div class="mx-auto">
-                    @if (Session::has('error'))
-                        <x-session type="error">{{ Session::get('error', 'Action failed') }}</x-session>
-                    @endif
-                    @if (Session::has('success'))
-                        <x-session type="success">{{ Session::get('success', 'Action performed successfully') }}</x-session>
-                    @endif
-                </div>
                 {{ $slot }}
             </main>
         </div>
@@ -70,6 +63,17 @@
     <footer class="flex bg-gray-200 justify-center items-center h-16">
         Copyright &copy; {{date('Y')}}
     </footer>
+    <script>
+        @if (Session::has('error'))
+            toastr.options.timeOut = 5000;
+            toastr.error("{{ Session::get('error') }}");
+        @endif
+        @if (Session::has('success'))
+            toastr.options.timeOut = 5000;
+            toastr.success("{{ Session::get('success') }}");
+        @endif
+
+    </script>
 </html>
 
 

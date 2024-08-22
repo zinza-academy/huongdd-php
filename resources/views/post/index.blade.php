@@ -44,12 +44,9 @@
                                         {{$post->title}}
                                     </th>
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        @if ($post->user->id === Auth::user()->id)
-                                            <x-status color="green">{{$post->user->name}}</x-status>
-                                        @else
-                                            <x-status color="neutral">{{$post->user->name}}</x-status>
+                                        @if ($post->user)
+                                            {{$post->user->name}}
                                         @endif
-
                                     </th>
                                     <td class="px-6 py-4">
                                         @if ($post->deleted_at)

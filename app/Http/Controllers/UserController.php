@@ -68,7 +68,6 @@ class UserController extends Controller
 
     public function deleteMany(UserDelManyRequest $request) {
         $this->userService->delete($request);
-        Session::flash('success', 'Users deleted!');
-        return redirect()->back();
+        return response()->json(['success' => 'deleted']);
     }
 }

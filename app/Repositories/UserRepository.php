@@ -29,7 +29,13 @@ class UserRepository {
     }
 
     public function delete($data) {
-        return $this->user::whereIn('id', $data)->delete();
+        $users = $this->user::whereIn('id', $data)->get();
+        foreach($users as $user) {
+            $user->post()->delete();
+            $user->comment()->delete();
+            $user->delete();
+        }
+        return true;
     }
 
 

@@ -41,13 +41,14 @@ class UserService {
         $data['password'] = Hash::make($request->password);
         $data['points'] = 0;
         $user = $this->userRepository->create($data);
-        dispatch(new SendMail($user->email, new CreateUserMailable($user)));
+        dispatch(new SendMail($user->email, new CreateUserMailable($request->email, $request->password)));
         return $user;
     }
 
     public function update(UserRequest $request, $id){
         $user = $this->userRepository->getUserById($id);
         $data = $request->validated();
+        unset($data['password']);
         if (!empty($request->avatar)) {
             $data['avatar'] = uploadFile($request->avatar, 'avatars');
         }
@@ -61,6 +62,7 @@ class UserService {
 
     public function deleteUser($id) {
         $user = $this->userRepository->getUserById($id);
+        $user->post()->delete();
         return $user->delete();
     }
 
@@ -90,5 +92,9 @@ class UserService {
             return $this->companyRepository->getAll(false);
         }
         return $user->company;
+    }
+
+    public function deletePost() {
+
     }
 }

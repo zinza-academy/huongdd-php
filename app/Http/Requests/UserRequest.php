@@ -25,12 +25,11 @@ class UserRequest extends FormRequest
     {
         return [
             'name' => 'nullable|min:10|max:255',
-            'old_password' => 'nullable',
-            'password' => 'nullable|min:10|max:255',
+            'password' => 'nullable|min:5|max:255',
             'password_confirm' =>'nullable|same:password',
             'avatar' => ['nullable', File::image()->max('5mb')],
             'role' => 'nullable',
-            'company_id' => 'nullable',
+            'company_id' => 'required',
             'dob' => 'nullable',
         ];
     }

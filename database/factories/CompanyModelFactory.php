@@ -21,6 +21,7 @@ class CompanyModelFactory extends Factory
             'address' => fake()->streetAddress(),
             'status' => 'active',
             'max_users' => 100,
+            'expired_time' => fake()->dateTimeBetween('now', '+10 years'),
         ];
     }
 }

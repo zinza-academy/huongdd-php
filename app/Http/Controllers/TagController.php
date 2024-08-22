@@ -73,8 +73,7 @@ class TagController extends Controller
 
     public function deleteMany(TagDelManyRequest $request) {
         $this->tagService->deleteMany($request->ids);
-        Session::flash('success', 'tags deleted');
-        return redirect()->back();
+        return response()->json(['success' => 'deleted']);
     }
 
     public function getTag(Request $request) {

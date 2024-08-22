@@ -16,6 +16,7 @@ class TopicService {
 
     public function delete($id) {
         $topic = $this->topicRepository->getTopicById($id);
+        $topic->post()->delete();
         return $topic->delete();
     }
 
@@ -31,7 +32,6 @@ class TopicService {
     }
 
     public function deleteMany($data) {
-        $fieldMatch = Schema::getColumnListing('topics');
         return $this->topicRepository->delete($data);
     }
 }

@@ -47,8 +47,8 @@
                         <div class="flex justify-start mt-5">
                             <div class="mr-5">
                                 <x-input-label for="datepicker" :value="__('Expire time')" />
-                                <x-text-input id="datepicker" class="block mt-1 w-60" type="text" name="expire" :value="old('expire')"/>
-                                <x-input-error :messages="$errors->get('expire')" class="mt-2" />
+                                <x-text-input id="datepicker" class="block mt-1 w-60" type="text" name="expired_time" :value="old('expire')"/>
+                                <x-input-error :messages="$errors->get('expired_time')" class="mt-2" />
                             </div>
                         </div>
                         <input type="submit" class="bg-blue-300 rounded py-1 px-4 mt-5 cursor-pointer" value="Submit">

@@ -21,7 +21,7 @@ class CommentFactory extends Factory
             'content' => fake()->text(200),
             'user_id' => User::inRandomOrder()->first()->id,
             'is_solution' => 0,
-            'post_id' => 45,
+            'post_id' => 8,
         ];
     }
 }
