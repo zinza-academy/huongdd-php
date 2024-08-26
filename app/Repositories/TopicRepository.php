@@ -33,4 +33,11 @@ class TopicRepository {
         return $this->topicModel::whereIn('id', $data)->delete();
     }
 
+    public function getWithPost () {
+        $topics = $this->topicModel::whereHas('post')->get();
+        $topics->each(function ($topic) {
+            $topic->post = $topic->post()->orderby('pinned', 'desc')->take(Config::get('constants.LIMIT_RECORD'))->get();
+        });
+        return $topics;
+    }
 }

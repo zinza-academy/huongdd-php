@@ -51,7 +51,6 @@ class UserService {
         if (!empty($request->avatar)) {
             $data['avatar'] = uploadFile($request->avatar, 'avatars');
         }
-        $data['company_id'] = $request->company !== '0' ? $request->company : null;
         if (!empty($request->password)) {
             $data['password'] = Hash::make($request->password);
         }

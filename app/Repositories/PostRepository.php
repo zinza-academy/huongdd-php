@@ -32,4 +32,8 @@ class PostRepository {
         return $this->postModel::whereIn($field, $data)->delete();
     }
 
+    public function getNewestPost($limit) {
+        return $this->postModel::orderBy('created_at', 'desc')->take($limit)->get();
+    }
+
 }

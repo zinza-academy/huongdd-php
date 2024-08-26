@@ -67,6 +67,10 @@
             </main>
         </div>
     </body>
+    <footer class="flex bg-gray-200 justify-center items-center h-16">
+        2024
+    </footer>
+
 
     <script>
         ClassicEditor.create(document.querySelector( '#editor' ) , {

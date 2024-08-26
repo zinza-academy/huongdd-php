@@ -48,6 +48,7 @@
                     <x-slot name="trigger">
                         <button class="inline-flex items-center border border-transparent transition ease-in-out duration-150">
                             <div class="ms-1">
+                                <div class="tooltip">
                                 @php
                                     $currentUser = Auth::user();
                                 @endphp
@@ -56,6 +57,8 @@
                                 @else
                                     <img src="{{url('img/placeholder.png')}}" alt="avatar" class="w-10 h-10 rounded-full">
                                 @endif
+                                    <p>{{$user->name}}</p>
+                                </div>
                             </div>
                         </button>
                     </x-slot>
